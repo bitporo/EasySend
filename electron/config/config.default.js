@@ -23,7 +23,7 @@ module.exports = (appInfo) => {
    * 主窗口
    */
   config.windowsOption = {
-    title: 'EE框架',
+    title: '简送',
     width: 1366,
     height: 768,
     minWidth: 400,
@@ -89,7 +89,7 @@ module.exports = (appInfo) => {
       key: '/public/ssl/localhost+1.key',
       cert: '/public/ssl/localhost+1.pem'
     },
-    host: '127.0.0.1',
+    host: '0.0.0.0', // 允许所有ip访问
     port: 7071,
     cors: {
       origin: "*"

@@ -1,25 +1,41 @@
 <template>
   <div class="container">
-    <MessageItem v-for="(item, index) in messageList" :data="item" :key="item.id" />
-    <MessageInput style="position: fixed;bottom: 0;" @send="getMessageListData" />
+    <NVirtualList ref="virtualListInst" style="height: 100%" content-style="overflow: hidden;" :item-size="42"
+      :items="messageList">
+      <template #default="{ item }">
+        <MessageItem :data="item" :key="item.id" />
+      </template>
+    </NVirtualList>
+    <NMessageProvider>
+      <MessageInput style="position: fixed;bottom: 0;" @send="getMessageListData" />
+    </NMessageProvider>
   </div>
 
 </template>
 
-<script lang="ts" setup>
+<script setup>
+import { NMessageProvider, NVirtualList } from 'naive-ui'
 import MessageItem from '../../components/MessageItem.vue';
 import MessageInput from '../../components/MessageInput.vue';
 import { getMessageList } from '@/api/message.js'
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
+
 defineOptions({
   name: 'MainPage',
 })
 const messageList = ref([])
-
+const virtualListInst = ref()
 function getMessageListData() {
   getMessageList().then(res => {
     messageList.value = res.data
+    nextTick(() => {
+      virtualListInst.value?.scrollTo({ position: "bottom" });
+    })
   })
+}
+
+function handleScrollToPosition() {
+  virtualListInst.value?.scrollTo({ position: "bottom" });
 }
 
 getMessageListData()
@@ -33,6 +49,5 @@ getMessageListData()
   height: 100%;
   padding-bottom: 100px;
   box-sizing: border-box;
-  overflow-y: scroll;
 }
 </style>

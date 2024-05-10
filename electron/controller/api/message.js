@@ -3,6 +3,7 @@
 const { Controller } = require('ee-core');
 const Log = require('ee-core/log');
 const Services = require('ee-core/services');
+const os = require('os')
 
 /**
  * example
@@ -30,7 +31,6 @@ class MessageController extends Controller {
   }
 
   async addMessageData (args) {
-    Log.info('args:', args.data);
     const result = await Services.get('jsondb').addMessageData(args.data);
     return result;
   }

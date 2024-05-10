@@ -1,13 +1,13 @@
 <template>
   <div class="item-container">
-    <div style="text-align: center;font-size: 12px;color: #888888;">{{data.dateTime}}</div>
+    <div class="time">{{ data.dateTime }}</div>
     <div class="item-content">
-      {{data.content}}
+      {{ data.content }}
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 defineOptions({
   name: 'MessageItem',
 })
@@ -17,6 +17,12 @@ const props = defineProps(['data'])
 <style lang="less" scoped>
 .item-container {
   padding: 20px;
+}
+
+.time {
+  text-align: center;
+  font-size: 12px;
+  color: #888888;
 }
 
 .item-content {

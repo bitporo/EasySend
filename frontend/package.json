@@ -18,6 +18,7 @@
     "@vue/compiler-sfc": "^3.2.33",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
+    "naive-ui": "^2.38.2",
     "terser": "^5.19.1",
     "vite": "^4.4.4"
   }
