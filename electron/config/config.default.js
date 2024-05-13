@@ -23,7 +23,7 @@ module.exports = (appInfo) => {
    * 主窗口
    */
   config.windowsOption = {
-    title: '简送',
+    title: '简传',
     width: 1366,
     height: 768,
     minWidth: 400,
@@ -112,7 +112,7 @@ module.exports = (appInfo) => {
    * 主进程
    */     
   config.mainServer = {
-    protocol: 'file://',
+    protocol: 'http://',
     indexPath: '/public/dist/index.html',
   }; 
 

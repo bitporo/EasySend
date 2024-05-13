@@ -42,7 +42,7 @@ module.exports = {
    */
   move: {
     frontend_dist: {
-      dist: './frontend/dist',
+      dist: './frontend/unpackage/dist/build/web',
       target: './public/dist'
     }
   },  
