@@ -5,7 +5,7 @@ const Log = require('ee-core/log');
 const Storage = require('ee-core/storage');
 const _ = require('lodash');
 const path = require('path');
-
+const crypto = require('crypto');
 /**
  * json数据存储
  * @class
@@ -31,13 +31,15 @@ class JsondbService extends Service {
     if (!this.demoDB.db.has(key).value()) {
       this.demoDB.db.set(key, []).write();
     }
-
-    const data = this.demoDB.db
+    const id = crypto.randomBytes(16).toString('hex')
+    this.demoDB.db
       .get(key)
-      .push(obj)
+      .push({ id, ...obj })
       .write();
-
-    return data;
+    return {
+      code: 200,
+      message: '添加数据成功！'
+    };
   }
 
   /*
