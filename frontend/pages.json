@@ -1,0 +1,36 @@
+{
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "uni-app"
+      }
+    }
+  ],
+  "leftWindow": {
+    "path": "responsive/left-window.vue", // 指定 leftWindow 页面文件
+    "style": {
+      "width": "calc(calc((100vw - 768px)/2)" // 页面宽度
+    },
+    "matchMedia": {
+      "minWidth": 1200 //生效条件，当窗口宽度大于768px时显示
+    }
+  },
+  "rightWindow": {
+    "path": "responsive/right-window.vue", // 指定 rightWindow 页面文件
+    "style": {
+      "width": "calc((100vw - 768px)/2)" // 页面宽度
+    },
+    "matchMedia": {
+      "minWidth": 1200 //生效条件，当窗口宽度大于768px时显示
+    }
+  },
+  "globalStyle": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "uniIdRouter": {}
+}
