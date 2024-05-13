@@ -25,13 +25,18 @@ class MessageController extends Controller {
   /**
    * test
    */
-  async getMessageList () {
+  async getMessageList() {
     const result = await Services.get('jsondb').getMessageList();
     return result;
   }
 
-  async addMessageData (args) {
+  async addMessageData(args) {
     const result = await Services.get('jsondb').addMessageData(args.data);
+    return result;
+  }
+
+  async uploadFile(args) {
+    const result = await Services.get('uploadFile').saveFile(args.file);
     return result;
   }
 }
