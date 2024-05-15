@@ -3,8 +3,6 @@
 const { Controller } = require('ee-core');
 const Log = require('ee-core/log');
 const Services = require('ee-core/services');
-const os = require('os')
-
 /**
  * example
  * @class
@@ -13,6 +11,7 @@ class MessageController extends Controller {
 
   constructor(ctx) {
     super(ctx);
+    this.app = ctx
   }
 
 
@@ -37,6 +36,13 @@ class MessageController extends Controller {
 
   async uploadFile(args) {
     const result = await Services.get('uploadFile').saveFile(args.file);
+    return result;
+  }
+
+  async downLoadFile(args) {
+    // 设置响应头，指定内容类型为application/octet-stream，并且设置Content-Disposition以提示浏览器进行文件下载
+    this.app.response.set({ 'content-type': 'application/octet-stream', 'content-disposition': 'attachment', filename: `${args.query.name}` });
+    const result = await Services.get('uploadFile').getFile(args.query);
     return result;
   }
 }

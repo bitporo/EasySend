@@ -4,7 +4,20 @@
       <div class="item-container" v-for="data in messageList" :key="data.id">
         <div class="time">{{ data.dateTime }}</div>
         <div class="item-content">
-          {{ data.content }}
+          <div v-if="data.type == 'text'">
+            {{ data.content }}
+          </div>
+          <div v-else-if="data.type == 'file'"
+            style="display: flex;align-items: center;justify-content: space-between;">
+            <div style="background-color: white;padding: 10px;">
+              <uni-icons type="paperclip"></uni-icons>
+              <span style="color: black;">{{ data.fileData.originalFilename }}</span>
+            </div>
+            <span>{{ computeSize(data.fileData.size) }}</span>
+            <div>
+              <button type="primary" size="mini" @click="handleDownLoadFile(data.fileData)">下载</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -43,7 +56,7 @@
     },
     methods: {
       handleSend(fileData) {
-        if (!this.contentValue) {
+        if (!this.contentValue && !fileData) {
           uni.showToast({
             icon: 'error',
             title: '内容不能为空！'
@@ -79,7 +92,7 @@
             name: 'file',
             success: (uploadFileRes) => {
               const resObj = JSON.parse(uploadFileRes.data)
-              this.contentValue = resObj.data.originalFilename
+              // this.contentValue = resObj.data.originalFilename
               that.handleSend(resObj.data)
             }
           });
@@ -101,6 +114,35 @@
           })
         })
       },
+      computeSize(size) {
+        if (size >= 1024) {
+          if (size >= 1024 * 1024) { //大于等于1M
+            return Math.ceil(size / 1024 / 1024).toString() + 'M'
+          } else { // 不足1M
+            return Math.ceil(size / 1024).toString() + 'KB'
+          }
+        } else {
+          return size + 'B'
+        }
+      },
+      handleDownLoadFile(file) {
+        uni.request({
+          url: this.baseUrl + '/api/message/downLoadFile',
+          method: 'GET',
+          responseType: 'arraybuffer',
+          data: {
+            path: file.filepath,
+            name: file.originalFilename
+          }
+        }).then(res => {
+          console.log('handleDownLoadFile--->', res.data)
+          const blob = new Blob([res.data], {
+            type: 'application/octet-stream'
+          });
+          const url = URL.createObjectURL(blob)
+          window.open(url)
+        })
+      }
     }
   }
 </script>

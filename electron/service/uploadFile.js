@@ -1,7 +1,6 @@
 const { Service } = require('ee-core');
 const fs = require('fs');
 const Log = require('ee-core/log');
-const os = require('os')
 class UploadFileService extends Service {
   constructor(ctx) {
     super(ctx);
@@ -20,6 +19,11 @@ class UploadFileService extends Service {
       },
       message: '文件上传成功！'
     };
+  }
+
+  async getFile(query) {
+    // 通过fs.createReadStream创建一个可读流来读取文件
+    return fs.createReadStream(query.path);
   }
 }
 
