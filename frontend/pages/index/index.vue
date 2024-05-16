@@ -12,10 +12,13 @@
             <div style="background-color: white;padding: 10px;">
               <uni-icons type="paperclip"></uni-icons>
               <span style="color: black;">{{ data.fileData.originalFilename }}</span>
+              <div>
+                <progress v-if="onItemId == data.id" :percent="downLoadProcess" stroke-width="3" />
+              </div>
             </div>
             <span>{{ computeSize(data.fileData.size) }}</span>
             <div>
-              <button type="primary" size="mini" @click="handleDownLoadFile(data.fileData)">下载</button>
+              <button type="primary" size="mini" @click="handleDownLoadFile(data)">下载</button>
             </div>
           </div>
         </div>
@@ -44,7 +47,9 @@
         loading: false,
         messageList: [],
         baseUrl: `http://${window.location.hostname}:7071`,
-        scrollElement: null
+        scrollElement: null,
+        downLoadProcess: 0,
+        onItemId: ''
       }
     },
     onLoad() {
@@ -84,7 +89,6 @@
       },
       handleFileSend() {
         uni.chooseFile().then((res) => {
-          console.log(res.tempFilePaths);
           const that = this
           const uploadTask = uni.uploadFile({
             url: this.baseUrl + '/api/message/uploadFile', //仅为示例，非真实的接口地址
@@ -117,7 +121,7 @@
       computeSize(size) {
         if (size >= 1024) {
           if (size >= 1024 * 1024) { //大于等于1M
-            return Math.ceil(size / 1024 / 1024).toString() + 'M'
+            return size / 1024 / 1024 + 'M'
           } else { // 不足1M
             return Math.ceil(size / 1024).toString() + 'KB'
           }
@@ -125,23 +129,23 @@
           return size + 'B'
         }
       },
-      handleDownLoadFile(file) {
-        uni.request({
-          url: this.baseUrl + '/api/message/downLoadFile',
-          method: 'GET',
-          responseType: 'arraybuffer',
-          data: {
-            path: file.filepath,
-            name: file.originalFilename
+      handleDownLoadFile(itemData) {
+        const url = this.baseUrl + '/api/message/downLoadFile' +
+          `?path=${encodeURIComponent(itemData.fileData.filepath)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}`
+        this.onItemId = itemData.id
+        const downloadTask = uni.downloadFile({
+          url: url, //仅为示例，并非真实的资源
+          success: (res) => {
+            this.onItemId = ''
+            const a = document.createElement('a')
+            a.href = res.tempFilePath
+            a.download = itemData.fileData.originalFilename
+            a.click()
           }
-        }).then(res => {
-          console.log('handleDownLoadFile--->', res.data)
-          const blob = new Blob([res.data], {
-            type: 'application/octet-stream'
-          });
-          const url = URL.createObjectURL(blob)
-          window.open(url)
-        })
+        });
+        downloadTask.onProgressUpdate((res) => {
+          this.downLoadProcess = (res.totalBytesWritten / itemData.fileData.size) * 100
+        });
       }
     }
   }
