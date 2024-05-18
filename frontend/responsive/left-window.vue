@@ -1,5 +1,5 @@
 <template>
-  <view>我是左边</view>
+  <view>广告位招商</view>
 </template>
 
 <script>

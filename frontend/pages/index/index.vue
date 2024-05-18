@@ -9,9 +9,9 @@
           </div>
           <div v-else-if="data.type == 'file'"
             style="display: flex;align-items: center;justify-content: space-between;">
-            <div style="background-color: white;padding: 10px;">
+            <div style="background-color: white;padding: 10px;width: 40%;">
               <uni-icons type="paperclip"></uni-icons>
-              <span style="color: black;">{{ data.fileData.originalFilename }}</span>
+              <text style="color: black;">{{ data.fileData.originalFilename }}</text>
               <div>
                 <progress v-if="onItemId == data.id" :percent="downLoadProcess" stroke-width="3" />
               </div>
@@ -46,7 +46,6 @@
         contentValue: '',
         loading: false,
         messageList: [],
-        baseUrl: `http://${window.location.hostname}:7071`,
         scrollElement: null,
         downLoadProcess: 0,
         onItemId: ''
@@ -76,7 +75,7 @@
           fileData
         }
         uni.request({
-          url: this.baseUrl + '/api/message/addMessageData',
+          url: '/message/addMessageData',
           method: 'POST',
           data: {
             data: sendData
@@ -91,7 +90,7 @@
         uni.chooseFile().then((res) => {
           const that = this
           const uploadTask = uni.uploadFile({
-            url: this.baseUrl + '/api/message/uploadFile', //仅为示例，非真实的接口地址
+            url: '/message/uploadFile', //仅为示例，非真实的接口地址
             filePath: res.tempFilePaths[0],
             name: 'file',
             success: (uploadFileRes) => {
@@ -109,7 +108,7 @@
       },
       getMessageList() {
         uni.request({
-          url: this.baseUrl + '/api/message/getMessageList',
+          url: '/message/getMessageList',
           method: 'GET'
         }).then(res => {
           this.messageList = res.data
@@ -121,21 +120,21 @@
       computeSize(size) {
         if (size >= 1024) {
           if (size >= 1024 * 1024) { //大于等于1M
-            return size / 1024 / 1024 + 'M'
+            return (size / 1024 / 1024).toFixed(2) + 'M'
           } else { // 不足1M
-            return Math.ceil(size / 1024).toString() + 'KB'
+            return (size / 1024).toFixed(2) + 'KB'
           }
         } else {
           return size + 'B'
         }
       },
       handleDownLoadFile(itemData) {
-        const url = this.baseUrl + '/api/message/downLoadFile' +
+        const url = '/message/downLoadFile' +
           `?path=${encodeURIComponent(itemData.fileData.filepath)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}`
         this.onItemId = itemData.id
         const downloadTask = uni.downloadFile({
           url: url, //仅为示例，并非真实的资源
-          success: (res) => {
+          success: (res) => {   
             this.onItemId = ''
             const a = document.createElement('a')
             a.href = res.tempFilePath
