@@ -6,6 +6,5 @@ run/
 package-lock.json
 data/
 .vscode/launch.json
-public
 pnpm-lock.yaml
 unpackage
