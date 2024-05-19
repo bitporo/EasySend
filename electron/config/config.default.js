@@ -116,10 +116,6 @@ module.exports = (appInfo) => {
     host: 'localhost', // 主机前端，已放开0.0.0.0
   };
 
-  // config.remoteUrl = {
-  //   enable: true,
-  //   url: 'http://localhost:7072'
-  // };
 
   /**
    * 硬件加速
@@ -153,7 +149,7 @@ module.exports = (appInfo) => {
     },
     tray: {
       enable: true,
-      title: 'EE程序',
+      title: '简传',
       icon: '/public/images/tray.png'
     },
     security: {
