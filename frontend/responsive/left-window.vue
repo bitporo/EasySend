@@ -1,10 +1,13 @@
 <template>
   <view class="container">
     <view>
-      感谢以下项目开源贡献：
+      感谢以下开源项目贡献：
     </view>
     <view>
-      electron-egg、uniapp
+      electron-egg
+    </view>
+    <view>
+      uniapp
     </view>
   </view>
 </template>
