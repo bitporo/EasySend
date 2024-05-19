@@ -21,8 +21,9 @@
     },
     methods: {
       getHost() {
+        console.log(this.baseUrl)
         uni.request({
-          url: '/system/getHostIp',
+          url: `http://${window.location.hostname}:7071/api` + '/system/getHostIp',
           method: 'GET'
         }).then(res => {
           this.ipList = res.data.filter(item => {

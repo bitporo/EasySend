@@ -6,7 +6,6 @@ const path = require('path');
  * 默认配置
  */
 module.exports = (appInfo) => {
-
   const config = {};
 
   /**
@@ -41,7 +40,7 @@ module.exports = (appInfo) => {
 
   /**
    * ee框架日志
-   */  
+   */
   config.logger = {
     encoding: 'utf8',
     level: 'INFO',
@@ -51,20 +50,20 @@ module.exports = (appInfo) => {
     rotator: 'day',
     appLogName: 'ee.log',
     coreLogName: 'ee-core.log',
-    errorLogName: 'ee-error.log' 
+    errorLogName: 'ee-error.log'
   }
 
   /**
    * 远程模式-web地址
-   */    
+   */
   config.remoteUrl = {
     enable: false,
-    url: 'http://electron-egg.kaka996.com/'
+    url: 'http://localhost:7072'
   };
 
   /**
    * 内置socket服务
-   */   
+   */
   config.socketServer = {
     enable: false,
     port: 7070,
@@ -81,11 +80,11 @@ module.exports = (appInfo) => {
 
   /**
    * 内置http服务
-   */     
+   */
   config.httpServer = {
     enable: true,
     https: {
-      enable: false, 
+      enable: false,
       key: '/public/ssl/localhost+1.key',
       cert: '/public/ssl/localhost+1.pem'
     },
@@ -101,7 +100,7 @@ module.exports = (appInfo) => {
       }
     },
     filterRequest: {
-      uris:  [
+      uris: [
         'favicon.ico'
       ],
       returnData: ''
@@ -110,11 +109,17 @@ module.exports = (appInfo) => {
 
   /**
    * 主进程
-   */     
+   */
   config.mainServer = {
     protocol: 'http://',
     indexPath: '/public/dist/index.html',
-  }; 
+    host: 'localhost', // 主机前端，已放开0.0.0.0
+  };
+
+  // config.remoteUrl = {
+  //   enable: true,
+  //   url: 'http://localhost:7072'
+  // };
 
   /**
    * 硬件加速
@@ -137,7 +142,7 @@ module.exports = (appInfo) => {
    */
   config.jobs = {
     messageLog: true
-  };  
+  };
 
   /**
    * 插件功能
@@ -161,11 +166,11 @@ module.exports = (appInfo) => {
     },
     autoUpdater: {
       enable: true,
-      windows: false, 
-      macOS: false, 
+      windows: false,
+      macOS: false,
       linux: false,
       options: {
-        provider: 'generic', 
+        provider: 'generic',
         url: 'http://kodo.qiniu.com/'
       },
       force: false,

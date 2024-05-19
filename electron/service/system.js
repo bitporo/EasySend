@@ -9,7 +9,6 @@ class SystemService extends Service {
 
   async getIps() {
     const networkInterfaces = os.networkInterfaces()
-    console.log(networkInterfaces)
     return Object.keys(networkInterfaces).map(item => {
       return networkInterfaces[item][1].address
     })
