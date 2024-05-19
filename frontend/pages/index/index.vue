@@ -1,18 +1,20 @@
 <template>
   <div class="content">
-    <div ref="scrollView" style="flex: 1;overflow-y: scroll;">
+    <div ref="scrollView" class="scroll-view">
       <div class="item-container" v-for="data in messageList" :key="data.id">
         <div class="time">{{ data.dateTime }}</div>
         <div class="item-content">
-          <div v-if="data.type == 'text'">
-            {{ data.content }}
-          </div>
-          <div v-else-if="data.type == 'file'"
-            style="display: flex;align-items: center;justify-content: space-between;">
-            <div style="background-color: white;padding: 10px;width: 40%;">
-              <div>
-                <uni-icons type="paperclip"></uni-icons>
-                <text style="color: black;">{{ data.fileData.originalFilename }}</text>
+          <view v-if="data.type == 'text'">
+            <!-- {{ data.content }} -->
+            <text class="content-text">
+              {{ data.content }}
+            </text>
+          </view>
+          <div v-else-if="data.type == 'file'" class="file-container">
+            <div class="file-block">
+              <div class="file-name">
+                <IconFile />
+                <text class="content-text" style="color: black">{{ data.fileData.originalFilename }}</text>
               </div>
               <div>
                 <progress v-if="onItemId == data.id" :percent="downLoadProcess" stroke-width="3" />
@@ -26,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div style="display: flex;align-items: end;gap: 10px;padding: 20px;">
+    <div class="input-module">
       <uni-easyinput type="textarea" v-model="contentValue" :maxlength="-1" placeholder="请输入内容"></uni-easyinput>
       <div>
         <div>
@@ -35,13 +37,23 @@
         <button type="primary" size="mini" :loading="loading" @click="handleSend()" style="width: 100%;">发送</button>
       </div>
     </div>
+    <uni-popup ref="popup" type="dialog">
+      <uni-popup-dialog mode="base" type="warning" title="上传进度" :showClose="false" confirm-text="取消"
+        @confirm="cancelUpload">
+        <progress style="width: 100%;" :percent="uploadProcess" stroke-width="3" />
+      </uni-popup-dialog>
+    </uni-popup>
   </div>
 </template>
 <script>
   import {
     nextTick
   } from 'vue'
+  import IconFile from './IconFile.vue'
   export default {
+    components: {
+      IconFile
+    },
     data() {
       return {
         textMode: true, // 1：文本，2：文件
@@ -50,11 +62,12 @@
         messageList: [],
         scrollElement: null,
         downLoadProcess: 0,
+        uploadProcess: 0,
         onItemId: '',
-        baseUrl: `http://${window.location.hostname}:7071/api`
+        baseUrl: `http://${window.location.hostname}:7071/api`,
+        uploadTask: null
       }
     },
-    inject: ['baseUrl'],
     onLoad() {
 
     },
@@ -93,22 +106,24 @@
       handleFileSend() {
         uni.chooseFile().then((res) => {
           const that = this
-          const uploadTask = uni.uploadFile({
+          this.$refs.popup.open()
+          this.uploadTask = uni.uploadFile({
             url: this.baseUrl + '/message/uploadFile', //仅为示例，非真实的接口地址
             filePath: res.tempFilePaths[0],
             name: 'file',
             success: (uploadFileRes) => {
               const resObj = JSON.parse(uploadFileRes.data)
-              // this.contentValue = resObj.data.originalFilename
               that.handleSend(resObj.data)
+              this.$refs.popup.close()
             }
           });
-          uploadTask.onProgressUpdate((res) => {
-            console.log('上传进度' + res.progress);
-            console.log('已经上传的数据长度' + res.totalBytesSent);
-            console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend);
+          this.uploadTask.onProgressUpdate((res) => {
+            this.uploadProcess = res.progress
           });
         });
+      },
+      cancelUpload() {
+        this.uploadTask.abort();
       },
       getMessageList() {
         uni.request({
@@ -160,30 +175,58 @@
     flex-direction: column;
     height: 100vh;
     background-color: white;
+
+    .scroll-view {
+      flex: 1;
+      overflow-y: scroll;
+    }
   }
 
   .item-container {
     padding: 20px;
+
+    .time {
+      text-align: center;
+      font-size: 12px;
+      color: #888888;
+    }
+
+    .item-content {
+      margin-top: 10px;
+      background-color: #536899;
+      padding: 10px;
+      color: white;
+      border-radius: 8px;
+    }
   }
 
-  .time {
-    text-align: center;
-    font-size: 12px;
-    color: #888888;
+  .content-text {
+    word-break: break-all;
   }
 
-  .item-content {
-    margin-top: 10px;
-    background-color: #536899;
-    padding: 10px;
-    color: white;
-    border-radius: 8px;
-  }
-
-  .scroll {
-    height: 100%;
+  .file-container {
     display: flex;
-    flex-direction: column;
-    justify-content: end;
+    align-items: center;
+    justify-content: space-between;
+
+    .file-block {
+      background-color: white;
+      padding: 10px;
+      width: 40%;
+      border-radius: 8px;
+
+      .file-name {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+  }
+
+  .input-module {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+    padding: 20px;
   }
 </style>
