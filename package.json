@@ -12,7 +12,7 @@
     "rd": "ee-bin move --flag=frontend_dist",
     "encrypt": "ee-bin encrypt",
     "clean": "ee-bin clean",
-    "icon": "ee-bin icon",
+    "icon": "ee-bin icon -o",
     "reload": "nodemon --config ./electron/config/nodemon.json",
     "rebuild": "electron-rebuild",
     "re-sqlite": "electron-rebuild -f -w better-sqlite3",
@@ -42,7 +42,7 @@
     "electron-egg",
     "ElectronEgg"
   ],
-  "author": "哆啦好梦, Inc <530353222@qq.com>",
+  "author": "zp",
   "license": "Apache",
   "devDependencies": {
     "@electron/rebuild": "^3.2.13",

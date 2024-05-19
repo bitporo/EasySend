@@ -1,7 +1,7 @@
 {
-  "productName": "esay-send",
-  "appId": "com.electron.ee",
-  "copyright": "© 2023 哆啦好梦 Technology Co., Ltd.",
+  "productName": "EasySend",
+  "appId": "com.channer.easysend",
+  "copyright": "© zp",
   "directories": {
     "output": "out"
   },
