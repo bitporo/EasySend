@@ -64,15 +64,18 @@ class AutoUpdaterAddon {
   
     autoUpdater.on('checking-for-update', () => {
       //sendStatusToWindow('正在检查更新...');
+      Log.info('[addon:autoUpdater] check: ', '正在检查更新');
     })
     autoUpdater.on('update-available', (info) => {
       info.status = status.available;
       info.desc = '有可用更新';
+      Log.info('[addon:autoUpdater] check: ', '有可用更新');
       this.sendStatusToWindow(info);
     })
     autoUpdater.on('update-not-available', (info) => {
       info.status = status.noAvailable;
       info.desc = '没有可用更新';
+      Log.info('[addon:autoUpdater] check: ', '没有可用更新');
       this.sendStatusToWindow(info);
     })
     autoUpdater.on('error', (err) => {

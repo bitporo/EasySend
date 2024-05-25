@@ -161,13 +161,13 @@ module.exports = (appInfo) => {
       args: []
     },
     autoUpdater: {
-      enable: true,
-      windows: false,
-      macOS: false,
-      linux: false,
+      enable: false,
+      windows: true,
+      macOS: true,
+      linux: true,
       options: {
         provider: 'generic',
-        url: 'http://kodo.qiniu.com/'
+        url: 'https://env-00jxg9oibm7l.normal.cloudstatic.cn/easy-send/'
       },
       force: false,
     }
