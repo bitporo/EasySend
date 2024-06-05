@@ -2,13 +2,15 @@
   <view class="right-content">
     <view>
       <view class="intro-title">共享访问地址：</view>
-      <view v-for="ip in ipList">
-        <uni-link :href="`http://${ip}:7072`" :text="`http://${ip}:7072`" color="#007BFF"></uni-link>
+      <view v-for="url in urlList">
+        <uni-link :href="url" color="#007BFF">
+          <text ref="urlLink">{{url}}</text>
+        </uni-link>
+        <uni-icons type="redo" class="ml10" @click="onCopy(url)"></uni-icons>
+        <uni-link :href="`${url}/#/pages/qrcode/qrcode?url=${url}`" :showUnderLine="false">
+          <uni-icons type="scan" class="ml10"></uni-icons>
+        </uni-link>
       </view>
-      <!--      <view class="intro-title">扫码访问：</view>
-      <view>
-        <canvas></canvas>
-      </view> -->
     </view>
     <view>
       <uni-collapse accordion>
@@ -48,7 +50,7 @@
   export default {
     data() {
       return {
-        ipList: []
+        urlList: []
       }
     },
     mounted() {
@@ -56,18 +58,27 @@
     },
     methods: {
       getHost() {
-        console.log(this.baseUrl)
         uni.request({
           url: `http://${window.location.hostname}:7071/api` + '/system/getHostIp',
           method: 'GET'
         }).then(res => {
-          this.ipList = res.data.filter(item => {
+          const ipList = res.data.filter(item => {
             const arr = item.split('.')
             // 判断ip最后一位是否为1
             return !(/^1$/.test(arr[arr.length - 1]))
           })
+          this.urlList = ipList.map(ip => `http://${ip}:7072`)
         })
       },
+      onCopy(url) {
+        navigator.permissions.query({ name: "clipboard" }).then((result) =>{})
+        // navigator.clipboard.writeText(url).then(res=>{
+        //   uni.showToast({
+        //     icon: 'none',
+        //     title: '已复制'
+        //   })
+        // })
+      }
     }
   }
 </script>
@@ -93,5 +104,7 @@
     color: #666666;
   }
 
-  .tips-content {}
+  .ml10 {
+    margin-left: 10px;
+  }
 </style>
