@@ -6,7 +6,7 @@
         <uni-link :href="url" color="#007BFF">
           <text ref="urlLink">{{url}}</text>
         </uni-link>
-        <uni-icons type="redo" class="ml10" @click="onCopy(url)"></uni-icons>
+        <uni-icons type="redo" class="ml10" style="cursor: pointer;" @click="onCopy(url)"></uni-icons>
         <uni-link :href="`${url}/#/pages/qrcode/qrcode?url=${url}`" :showUnderLine="false">
           <uni-icons type="scan" class="ml10"></uni-icons>
         </uni-link>
@@ -71,13 +71,13 @@
         })
       },
       onCopy(url) {
-        navigator.permissions.query({ name: "clipboard" }).then((result) =>{})
-        // navigator.clipboard.writeText(url).then(res=>{
-        //   uni.showToast({
-        //     icon: 'none',
-        //     title: '已复制'
-        //   })
-        // })
+        console.log(this.$refs.urlLink)
+        window.getSelection().selectAllChildren(this.$refs.urlLink[0].$el)
+        document.execCommand('copy')
+        uni.showToast({
+          icon: 'none',
+          title: '已复制'
+        })
       }
     }
   }
