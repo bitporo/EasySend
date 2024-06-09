@@ -7,7 +7,7 @@
       "path" : "pages/qrcode/qrcode",
       "style" : 
       {
-        "navigationBarTitleText" : ""
+        "navigationBarTitleText" : "二维码展示"
       }
     }
   ],

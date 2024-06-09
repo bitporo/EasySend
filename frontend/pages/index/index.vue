@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" @dragenter="handleDragEnter">
     <div ref="scrollView" class="scroll-view">
       <div class="item-container" v-for="data in messageList" :key="data.id">
         <div class="time">{{ data.dateTime }}</div>
@@ -32,7 +32,7 @@
       <uni-easyinput type="textarea" v-model="contentValue" :maxlength="-1" placeholder="请输入内容"></uni-easyinput>
       <div>
         <div>
-          <button size="mini" @click="handleFileSend">传文件</button>
+          <button size="mini" @click="handleFileChoose">传文件</button>
         </div>
         <button type="primary" size="mini" :loading="loading" @click="handleSend()" style="width: 100%;">发送</button>
       </div>
@@ -43,6 +43,9 @@
         <progress style="width: 100%;" :percent="uploadProcess" stroke-width="3" />
       </uni-popup-dialog>
     </uni-popup>
+    <div class="dragMask" @dragleave="handleDragLeave" @dragover="handleDragOver" @drop="handleDrop" v-if="hasEnter">
+      放开拖拽将上传文件，若不想上传请移出，若多文件只会上传第一个
+    </div>
   </div>
 </template>
 <script>
@@ -65,7 +68,8 @@
         uploadProcess: 0,
         onItemId: '',
         baseUrl: `http://${window.location.hostname}:7071/api`,
-        uploadTask: null
+        uploadTask: null,
+        hasEnter: false,
       }
     },
     onLoad() {
@@ -74,8 +78,42 @@
     mounted() {
       this.scrollElement = this.$refs.scrollView
       this.getMessageList()
+      const inputArea = this.$refs.inputArea
     },
     methods: {
+      handleDragEnter(e) {
+        if (this.hasEnter) {
+          return
+        }
+        e.preventDefault();
+        this.hasEnter = true
+      },
+      handleDragOver(e) {
+        e.preventDefault(); // 必须阻止默认行为，以便drop事件能被触发
+      },
+      handleDragLeave(e) {
+        this.hasEnter = false
+      },
+      handleDrop(e) {
+        this.hasEnter = false
+        this.$refs.popup.open()
+        e.preventDefault(); // 阻止浏览器默认处理文件拖放
+        // 获取拖放的文件
+        const files = Array.from(e.dataTransfer.files);
+        // 暂时只传第一个文件，以后可以完善多文件
+        this.uploadTask = uni.uploadFile({
+          url: this.baseUrl + '/message/uploadFile', //仅为示例，非真实的接口地址
+          file: files[0],
+          success: (uploadFileRes) => {
+            const resObj = JSON.parse(uploadFileRes.data)
+            this.handleSend(resObj.data)
+            this.$refs.popup.close()
+          }
+        });
+        this.uploadTask.onProgressUpdate((res) => {
+          this.uploadProcess = res.progress
+        });
+      },
       handleSend(fileData) {
         if (!this.contentValue && !fileData) {
           uni.showToast({
@@ -103,7 +141,7 @@
           this.getMessageList()
         })
       },
-      handleFileSend() {
+      handleFileChoose() {
         uni.chooseFile().then((res) => {
           const that = this
           this.$refs.popup.open()
@@ -171,6 +209,7 @@
 
 <style>
   .content {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -228,5 +267,18 @@
     align-items: end;
     gap: 10px;
     padding: 20px;
+  }
+
+  .dragMask {
+    background-color: #000000aa;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
   }
 </style>
