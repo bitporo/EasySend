@@ -96,7 +96,8 @@ module.exports = (appInfo) => {
     body: {
       multipart: true,
       formidable: {
-        keepExtensions: true
+        keepExtensions: true,
+        maxFileSize: 2048 * 1024 * 1024,
       }
     },
     filterRequest: {

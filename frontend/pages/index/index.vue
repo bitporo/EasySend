@@ -78,7 +78,6 @@
     mounted() {
       this.scrollElement = this.$refs.scrollView
       this.getMessageList()
-      const inputArea = this.$refs.inputArea
     },
     methods: {
       handleDragEnter(e) {
