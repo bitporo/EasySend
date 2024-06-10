@@ -114,7 +114,8 @@ module.exports = (appInfo) => {
   config.mainServer = {
     protocol: 'http://',
     indexPath: '/public/dist/index.html',
-    host: 'localhost', // 主机前端，已放开0.0.0.0
+    open: true // 放开0.0.0.0
+    // host: 'localhost', // 使用默认配置
   };
 
 
