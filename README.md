@@ -5,7 +5,7 @@
 
 #### 软件架构
 采用electron-egg + uniapp 实现
-
+![输入图片说明](frontend/static/image.png)
 
 #### 安装教程
 
