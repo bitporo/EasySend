@@ -36,6 +36,16 @@ class JsondbService extends Service {
       .get(key)
       .push({ id, ...obj })
       .write();
+
+    this.app.sseClient.forEach(clientRes => {
+      if (clientRes.writable) {
+        const content = 'Can refresh'
+        clientRes.write(`data: ${JSON.stringify({ content })}\n\n`);
+      } else {
+        // 如果客户端连接不可写，则从列表中移除
+        this.app.sseClient.delete(clientRes);
+      }
+    });
     return {
       code: 200,
       message: '添加数据成功！'

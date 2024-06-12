@@ -78,8 +78,22 @@
     mounted() {
       this.scrollElement = this.$refs.scrollView
       this.getMessageList()
+      this.initSSE()
     },
     methods: {
+      initSSE() {
+        const eventSource = new EventSource(`http://${window.location.hostname}:7080/sse`);
+        eventSource.onmessage = (event) => {
+          const data = JSON.parse(event.data)
+          if(data.content == 'Can refresh'){
+            // 收到刷新通知，获取新消息
+            this.getMessageList()
+          }
+        };
+        eventSource.onerror = (error) => {
+          console.error('Error occurred:', error);
+        };
+      },
       handleDragEnter(e) {
         if (this.hasEnter) {
           return
@@ -137,7 +151,7 @@
         }).then(res => {
           this.loading = false
           this.contentValue = ''
-          this.getMessageList()
+          // this.getMessageList()
         })
       },
       handleFileChoose() {
