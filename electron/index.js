@@ -11,9 +11,9 @@ class Index extends Application {
       {
         label: '操作',
         submenu: [
-          { label: '复制', accelerator: 'Cmd+C', role: 'copy' },
-          { label: '粘贴', accelerator: 'Cmd+V', role: 'paste' },
-          { label: '刷新', accelerator: 'Cmd+R', role: 'reload' },
+          { label: '复制', accelerator: 'CmdorCtrl+C', role: 'copy' },
+          { label: '粘贴', accelerator: 'CmdorCtrl+V', role: 'paste' },
+          { label: '刷新', accelerator: 'CmdorCtrl+R', role: 'reload' },
         ]
       },
     ]

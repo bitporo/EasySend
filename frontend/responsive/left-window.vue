@@ -10,7 +10,7 @@
       </view>
       <view style="font-size: 12px;color: #686868;">
         <view style="margin-top: 10px;">
-          <uni-link href="http://www.channer.cn/easysend">版本 1.0.5（持续更新中）</uni-link>
+          <uni-link href="https://easysend.channer.cn/">版本 1.0.5（持续更新中）</uni-link>
         </view>
         <view style="margin-top: 10px;">
           Copyright © 2024 EasySend. All Rights Reserved.
