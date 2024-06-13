@@ -7,21 +7,19 @@ class Index extends Application {
   constructor() {
     super();
     // this === eeApp;
-    if (process.platform === 'darwin') {
-      const template = [
-        {
-          label: '操作',
-          submenu: [
-            { label: '复制', accelerator: 'Cmd+C', role: 'copy' },
-            { label: '粘贴', accelerator: 'Cmd+V', role: 'paste' },
-            { label: '刷新', accelerator: 'Cmd+R', role: 'reload' },
-          ]
-        },
-      ]
-      // 设置顶部菜单
-      const menu = Menu.buildFromTemplate(template)
-      Menu.setApplicationMenu(menu)
-    }
+    const template = [
+      {
+        label: '操作',
+        submenu: [
+          { label: '复制', accelerator: 'Cmd+C', role: 'copy' },
+          { label: '粘贴', accelerator: 'Cmd+V', role: 'paste' },
+          { label: '刷新', accelerator: 'Cmd+R', role: 'reload' },
+        ]
+      },
+    ]
+    // 设置顶部菜单
+    const menu = Menu.buildFromTemplate(template)
+    Menu.setApplicationMenu(menu)
     const clients = new Map(); // 用来存储所有连接的客户端
     const server = http.createServer((req, res) => {
       if (req.url === '/sse') {
