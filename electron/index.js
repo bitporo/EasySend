@@ -9,7 +9,7 @@ class Index extends Application {
     // this === eeApp;
     const template = [
       {
-        label: 'View',
+        label: '操作',
         submenu: [
           { role: 'reload' },
           { role: 'forceReload' },
@@ -22,7 +22,7 @@ class Index extends Application {
         res.writeHead(200, {
           'Content-Type': 'text/event-stream',
           'Cache-Control': 'no-cache',
-          Connection: 'keep-alive',
+          'Connection': 'keep-alive',
           'Access-Control-Allow-Origin': '*'
         });
 
@@ -31,6 +31,7 @@ class Index extends Application {
         clients.set(clientId, res);
 
         const content = 'server connect success'
+        // sse 必须按照这个格式发送
         res.write(`data: ${JSON.stringify({ content })}\n\n`);
         req.on('close', () => {
           // 连接关闭时，从列表中移除客户端
@@ -88,16 +89,6 @@ class Index extends Application {
     // do some things
 
   }
-
-  publishToTopic(topic, message) {
-    this.server.publish(topic, message, { qos: 0, retain: false }, (error) => {
-      if (error) {
-        console.error('Error publishing message:', error);
-      } else {
-        console.log('Message published successfully.');
-      }
-    });
-  };
 }
 
 Index.toString = () => '[class Index]';
