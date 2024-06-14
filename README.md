@@ -7,7 +7,7 @@
 采用electron-egg + uniapp 实现  
 官网下载：https://easysend.channer.cn
 <p align="center">
-  <img src="frontend/static/image.png" width="800" alt="示例图片">
+  <img src="frontend/static/easysend.png" width="800" alt="示例图片">
 </p>
 
 #### 安装教程
@@ -30,7 +30,7 @@
 
 #### 特技
 
-1.  无需公网，安装即可使用
+1.  无需公网，j仅需一端安装即可使用
 2.  浏览器访问，使用更便捷
 3.  支持一键复制共享地址、支持手机二维码扫描、支持拖拽文件上传
 
