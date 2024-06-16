@@ -1,17 +1,22 @@
 <template>
   <view class="right-content">
-    <view>
+    <Card style="background-color: var(--p-surface-100);">
+      <template #content>
+        <view style="color: var(--p-text-color);">
+          <view class="intro-title">共享访问地址：</view>
+          <view v-for="url in urlList" style="margin-bottom: 10px;">
+            <uni-link :href="url">
+              <text ref="urlLink">{{url}}</text>
+            </uni-link>
+            <i class="pi pi-clone icon-button"  @click="onCopy(url)"></i>
+            <i class="pi pi-qrcode icon-button" @click="onQrcode(`${url}/#/pages/qrcode/qrcode?url=${url}`)"></i>
+          </view>
+        </view>
+      </template>
+    </Card>
+    <!--    <view>
       <view class="intro-title">共享访问地址：</view>
-      <view v-for="url in urlList">
-        <uni-link :href="url" color="#007BFF">
-          <text ref="urlLink">{{url}}</text>
-        </uni-link>
-        <uni-icons type="redo" class="ml10" style="cursor: pointer;" @click="onCopy(url)"></uni-icons>
-        <uni-link :href="`${url}/#/pages/qrcode/qrcode?url=${url}`" :showUnderLine="false">
-          <uni-icons type="scan" class="ml10"></uni-icons>
-        </uni-link>
-      </view>
-    </view>
+    </view> -->
     <view>
       <uni-collapse accordion>
         <uni-collapse-item title="反馈交流">
@@ -47,7 +52,11 @@
 </template>
 
 <script>
+  import Card from 'primevue/card';
   export default {
+    components: {
+      Card
+    },
     data() {
       return {
         urlList: []
@@ -78,6 +87,9 @@
           icon: 'none',
           title: '已复制'
         })
+      },
+      onQrcode(url){
+        window.open(url)
       }
     }
   }
@@ -95,7 +107,8 @@
   }
 
   .intro-title {
-    padding: 10px 0;
+    /* padding: 10px 0; */
+    margin-bottom: 10px;
     font-weight: bold;
   }
 
@@ -104,7 +117,8 @@
     color: #666666;
   }
 
-  .ml10 {
+  .icon-button {
+    cursor: pointer;
     margin-left: 10px;
   }
 </style>

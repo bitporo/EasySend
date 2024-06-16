@@ -14,7 +14,7 @@ module.exports = (appInfo) => {
   /**
    * 应用程序顶部菜单
    */
-  config.openAppMenu = true;
+  config.openAppMenu = false;
 
   /**
    * jobs
