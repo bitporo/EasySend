@@ -5,7 +5,7 @@
         <view style="color: var(--p-text-color);">
           <view class="intro-title">共享访问地址：</view>
           <view v-for="url in urlList" style="margin-bottom: 10px;">
-            <uni-link :href="url">
+            <uni-link :href="url" color="var(--p-surface-500)">
               <text ref="urlLink">{{url}}</text>
             </uni-link>
             <i class="pi pi-clone icon-button"  @click="onCopy(url)"></i>

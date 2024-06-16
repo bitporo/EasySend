@@ -2,13 +2,18 @@
   <view class="container">
     <view style="display: flex;flex-direction: column;justify-content: space-between;height: 100%;">
       <view style="display: flex;align-items: center;">
-        <image src="@/static/logo.png" style="width: 50px;flex-shrink: 0;" mode="widthFix"></image>
+        <!-- <image src="@/static/logo.png" style="width: 50px;flex-shrink: 0;" mode="widthFix"></image> -->
+        <Logo style="width: 50px;height: 50px;"/>
         <view>
           <view style="margin: 10px;font-weight: bold;">简传</view>
           <view style="margin: 10px;font-size: 14px;color: #686868;">简单使用，传递方便</view>
         </view>
       </view>
       <view style="font-size: 12px;color: #686868;">
+        <view style="display: flex;gap: 10px;">
+          <Button icon="pi pi-palette" text raised rounded aria-label="Theme" />
+          <Button icon="pi pi-language" text raised rounded aria-label="Language" />
+        </view>
         <view style="margin-top: 10px;">
           <uni-link href="https://easysend.channer.cn/">版本 1.0.5（持续更新中）</uni-link>
         </view>
@@ -20,7 +25,9 @@
   </view>
 </template>
 
-<script>
+<script setup>
+  import Button from "primevue/button"
+  import Logo from './icons/Logo.vue'
 </script>
 
 <style scoped>
