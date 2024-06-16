@@ -25,7 +25,7 @@
           </view>
         </uni-collapse-item>
         <uni-collapse-item title="使用方法">
-          <view class="intro-content">只需在一台主机上启动软件，其余客户端使用浏览器访问“共享访问地址”即可，其他端发送完信息，本机端需要刷新页面（顶部菜单View可操作）</view>
+          <view class="intro-content">只需在一台主机上启动软件，其余客户端使用浏览器访问“共享访问地址”即可</view>
         </uni-collapse-item>
         <uni-collapse-item title="适用场景">
           <view class="intro-content">局域网文本文件共享、虚拟机与宿主机共享、电脑手机共享等</view>

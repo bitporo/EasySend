@@ -2,7 +2,7 @@
   <view class="container">
     <view style="display: flex;flex-direction: column;justify-content: space-between;height: 100%;">
       <view style="padding: 20px 0;display: flex;align-items: center;">
-        <image src="../static/logo.png" style="width: 70px;flex-shrink: 0;" mode="widthFix"></image>
+        <image src="@/static/logo.png" style="width: 70px;flex-shrink: 0;" mode="widthFix"></image>
         <view>
           <view style="margin: 10px;font-weight: bold;">简传</view>
           <view style="margin: 10px;font-size: 14px;color: #686868;">简单使用，传递方便</view>

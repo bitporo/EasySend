@@ -220,7 +220,7 @@
   }
 </script>
 
-<style>
+<style scoped lang="scss">
   .content {
     position: relative;
     display: flex;
@@ -231,6 +231,7 @@
     .scroll-view {
       flex: 1;
       overflow-y: scroll;
+      scrollbar-width: none;
     }
   }
 
