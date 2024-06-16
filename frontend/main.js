@@ -12,9 +12,22 @@ app.$mount()
 // #endif
 
 // #ifdef VUE3
-import { createSSRApp } from 'vue'
+import {
+  createSSRApp
+} from 'vue'
+import PrimeVue from 'primevue/config';
+import 'primeicons/primeicons.css'
+import {
+  Noir
+} from './thems.js'
+
 export function createApp() {
   const app = createSSRApp(App)
+  app.use(PrimeVue, {
+    theme: {
+      preset: Noir,
+    }
+  });
   return {
     app
   }

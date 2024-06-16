@@ -1,4 +1,5 @@
 <template>
+  
   <div class="content" @dragenter="handleDragEnter">
     <div ref="scrollView" class="scroll-view">
       <div class="item-container" v-for="data in messageList" :key="data.id">
@@ -22,19 +23,18 @@
             </div>
             <span>{{ computeSize(data.fileData.size) }}</span>
             <div>
-              <button type="primary" size="mini" @click="handleDownLoadFile(data)">下载</button>
+              <Button icon="pi pi-download" aria-label="下载" severity="secondary" @click="handleDownLoadFile(data)"/>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="input-module">
-      <uni-easyinput type="textarea" v-model="contentValue" :maxlength="-1" placeholder="请输入内容"></uni-easyinput>
-      <div>
-        <div>
-          <button size="mini" @click="handleFileChoose">传文件</button>
-        </div>
-        <button type="primary" size="mini" :loading="loading" @click="handleSend()" style="width: 100%;">发送</button>
+      <!-- <uni-easyinput type="textarea" v-model="contentValue" :maxlength="-1" placeholder="请输入内容"></uni-easyinput> -->
+      <Textarea v-model="contentValue" placeholder="请输入内容" rows="4" style="flex: 1;"/>
+      <div style="display: flex;flex-direction: column;gap: 10px;">
+        <Button icon="pi pi-file-arrow-up" aria-label="传文件" severity="secondary" @click="handleFileChoose"/>
+        <Button icon="pi pi-send" aria-label="传文本" :loading="loading" @click="handleSend()"/>
       </div>
     </div>
     <uni-popup ref="popup" type="dialog">
@@ -53,9 +53,13 @@
     nextTick
   } from 'vue'
   import IconFile from './IconFile.vue'
+  import Button from "primevue/button"
+  import Textarea from 'primevue/textarea';
   export default {
     components: {
-      IconFile
+      IconFile,
+      Textarea,
+      Button
     },
     data() {
       return {
@@ -246,9 +250,9 @@
 
     .item-content {
       margin-top: 10px;
-      background-color: #536899;
+      background-color: var(--p-primary-950);
       padding: 10px;
-      color: white;
+      color: var(--p-button-primary-color);
       border-radius: 8px;
     }
   }
