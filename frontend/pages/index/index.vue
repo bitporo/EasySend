@@ -13,34 +13,34 @@
           <div v-else-if="data.type == 'file'" class="file-container">
             <div class="file-block">
               <div class="file-name">
-                <IconFile />
-                <text class="content-text" style="color: black">{{ data.fileData.originalFilename }}</text>
+                <!-- <IconFile /> -->
+                <i class="pi pi-file"></i>
+                <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
               <div>
                 <progress v-if="onItemId == data.id" :percent="downLoadProcess" stroke-width="3" />
               </div>
             </div>
-            <span>{{ computeSize(data.fileData.size) }}</span>
+            <text style="color: var(--p-primary-contrast-color)">{{ computeSize(data.fileData.size) }}</text>
             <div>
-              <button type="primary" size="mini" @click="handleDownLoadFile(data)">下载</button>
+              <Button icon="pi pi-download" aria-label="下载" severity="secondary" @click="handleDownLoadFile(data)" />
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="input-module">
-      <uni-easyinput type="textarea" v-model="contentValue" :maxlength="-1" placeholder="请输入内容"></uni-easyinput>
-      <div>
-        <div>
-          <button size="mini" @click="handleFileChoose">传文件</button>
-        </div>
-        <button type="primary" size="mini" :loading="loading" @click="handleSend()" style="width: 100%;">发送</button>
+      <!-- <uni-easyinput type="textarea" v-model="contentValue" :maxlength="-1" placeholder="请输入内容"></uni-easyinput> -->
+      <Textarea v-model="contentValue" placeholder="请输入内容" rows="4" style="flex: 1;" />
+      <div style="display: flex;flex-direction: column;gap: 10px;">
+        <Button icon="pi pi-file-arrow-up" aria-label="传文件" severity="secondary" @click="handleFileChoose" />
+        <Button icon="pi pi-send" aria-label="传文本" :loading="loading" @click="handleSend()" />
       </div>
     </div>
     <uni-popup ref="popup" type="dialog">
       <uni-popup-dialog mode="base" type="warning" title="上传进度" :showClose="false" confirm-text="取消"
         @confirm="cancelUpload">
-        <progress style="width: 100%;" :percent="uploadProcess" stroke-width="3" />
+        <progress style="width: 100%;" :percent="uploadProcess" activeColor="var(--p-primary-color)" stroke-width="3" />
       </uni-popup-dialog>
     </uni-popup>
     <div class="dragMask" @dragleave="handleDragLeave" @dragover="handleDragOver" @drop="handleDrop" v-if="hasEnter">
@@ -53,9 +53,13 @@
     nextTick
   } from 'vue'
   import IconFile from './IconFile.vue'
+  import Button from "primevue/button"
+  import Textarea from 'primevue/textarea';
   export default {
     components: {
-      IconFile
+      IconFile,
+      Textarea,
+      Button,
     },
     data() {
       return {
@@ -85,7 +89,7 @@
         const eventSource = new EventSource(`http://${window.location.hostname}:7080/sse`);
         eventSource.onmessage = (event) => {
           const data = JSON.parse(event.data)
-          if(data.content == 'Can refresh'){
+          if (data.content == 'Can refresh') {
             // 收到刷新通知，获取新消息
             this.getMessageList()
           }
@@ -227,13 +231,36 @@
     flex-direction: column;
     height: 100vh;
     background-color: white;
+    border: 1px solid var(--p-content-border-color);
 
     .scroll-view {
       flex: 1;
       overflow-y: scroll;
-      scrollbar-width: none;
+      // scrollbar-width: thin;
     }
   }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--p-surface-100);
+    border-radius: 8px;
+  }
+
+  // ::-webkit-scrollbar-track {
+  //   background: var(--p-surface-100);
+  //   border-radius: 16px;
+  // }
+
+  /* 针对不支持::-webkit-scrollbar-*的浏览器的样式调整 */
+  @supports not (selector(::-webkit-scrollbar)) {
+    html {
+      scrollbar-width: thin;
+    }
+  }
+
 
   .item-container {
     padding: 20px;
@@ -246,9 +273,9 @@
 
     .item-content {
       margin-top: 10px;
-      background-color: #536899;
-      padding: 10px;
-      color: white;
+      background-color: var(--p-primary-color);
+      padding: 15px;
+      color: var(--p-primary-contrast-color);
       border-radius: 8px;
     }
   }
@@ -261,11 +288,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    color: var(--p-primary-color);
 
     .file-block {
       background-color: white;
-      padding: 10px;
-      width: 40%;
+      padding: 15px;
+      // width: 40%;
       border-radius: 8px;
 
       .file-name {
@@ -281,6 +309,7 @@
     align-items: end;
     gap: 10px;
     padding: 20px;
+    border-top: 1px solid var(--p-content-border-color);
   }
 
   .dragMask {

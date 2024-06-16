@@ -28,9 +28,16 @@
 
 <style>
   #app {
-    background-color: #f2f2f2;
+/*    background-color: #f2f2f2; */
     /*uniapp默认不能选择文本，此处重置 */
     user-select: text;
+  }
+
+  ::selection {
+    background-color: var(--p-surface-200);
+    /* 背景颜色 */
+    color: var(--p-surface-950);
+    /* 文字颜色 */
   }
 
   /*每个页面公共css */
