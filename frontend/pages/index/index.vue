@@ -3,9 +3,8 @@
     <div ref="scrollView" class="scroll-view">
       <div class="item-container" v-for="data in messageList" :key="data.id">
         <div class="time">{{ data.dateTime }}</div>
-        <div class="item-content">
+        <div class="item-content" @contextmenu="onItemRightClick($event, data)">
           <view v-if="data.type == 'text'">
-            <!-- {{ data.content }} -->
             <text class="content-text">
               {{ data.content }}
             </text>
@@ -13,12 +12,11 @@
           <div v-else-if="data.type == 'file'" class="file-container">
             <div class="file-block">
               <div class="file-name">
-                <!-- <IconFile /> -->
                 <i class="pi pi-file"></i>
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
               <div>
-                <progress v-if="onItemId == data.id" :percent="downLoadProcess" stroke-width="3" />
+                <progress v-if="onDownLoadItemId == data.id" :percent="downLoadProcess" stroke-width="3" />
               </div>
             </div>
             <text style="color: var(--p-primary-contrast-color)">{{ computeSize(data.fileData.size) }}</text>
@@ -30,7 +28,6 @@
       </div>
     </div>
     <div class="input-module">
-      <!-- <uni-easyinput type="textarea" v-model="contentValue" :maxlength="-1" placeholder="请输入内容"></uni-easyinput> -->
       <Textarea v-model="contentValue" placeholder="请输入内容" rows="4" style="flex: 1;" />
       <div style="display: flex;flex-direction: column;gap: 10px;">
         <Button icon="pi pi-file-arrow-up" aria-label="传文件" severity="secondary" @click="handleFileChoose" />
@@ -46,6 +43,7 @@
     <div class="dragMask" @dragleave="handleDragLeave" @dragover="handleDragOver" @drop="handleDrop" v-if="hasEnter">
       放开拖拽将上传文件，若不想上传请移出，若多文件只会上传第一个
     </div>
+    <ContextMenu ref="contextMenuRef" :model="contextMenu" />
   </div>
 </template>
 <script>
@@ -55,11 +53,13 @@
   import IconFile from './IconFile.vue'
   import Button from "primevue/button"
   import Textarea from 'primevue/textarea';
+  import ContextMenu from 'primevue/contextmenu';
   export default {
     components: {
       IconFile,
       Textarea,
       Button,
+      ContextMenu
     },
     data() {
       return {
@@ -70,10 +70,27 @@
         scrollElement: null,
         downLoadProcess: 0,
         uploadProcess: 0,
-        onItemId: '',
+        onDownLoadItemId: '',
+        onRightClickItem: '',
         baseUrl: `http://${window.location.hostname}:7071/api`,
         uploadTask: null,
         hasEnter: false,
+        contextMenu: [{
+          label: '删除',
+          icon: 'pi pi-trash',
+          command: () => {
+            console.log(this.onRightClickItem)
+            uni.showModal({
+              title: '提示',
+              content: '确认删除吗？',
+              confirmColor: 'var(--p-primary-color)',
+              cancelColor: 'var(--p-surface-500)',
+              success: () => {
+                this.deleteItems([this.onRightClickItem])
+              }
+            })
+          }
+        }]
       }
     },
     onLoad() {
@@ -191,6 +208,20 @@
           })
         })
       },
+      deleteItems(data) {
+        uni.request({
+          url: this.baseUrl + '/message/deleteMessages',
+          method: 'POST',
+          data: {
+            data
+          }
+        }).then(res => {
+          uni.showToast({
+            icon: 'success',
+            title: '消息删除成功！'
+          })
+        })
+      },
       computeSize(size) {
         if (size >= 1024) {
           if (size >= 1024 * 1024) { //大于等于1M
@@ -219,6 +250,11 @@
         downloadTask.onProgressUpdate((res) => {
           this.downLoadProcess = (res.totalBytesWritten / itemData.fileData.size) * 100
         });
+      },
+      onItemRightClick(event, itemData) {
+        console.log(itemData)
+        this.onRightClickItem = itemData
+        this.$refs.contextMenuRef.show(event);
       }
     }
   }

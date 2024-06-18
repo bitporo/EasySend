@@ -2,6 +2,7 @@
 
 const { Service } = require('ee-core');
 const Log = require('ee-core/log');
+const fs = require('fs');
 const Storage = require('ee-core/storage');
 const _ = require('lodash');
 const path = require('path');
@@ -20,19 +21,19 @@ class JsondbService extends Service {
     }
     // jsondb数据库
     this.jsonFile = 'jsondb';
-    this.demoDB = Storage.connection(this.jsonFile, jsondbOptions);
+    this.jsonDB = Storage.connection(this.jsonFile, jsondbOptions);
   }
 
   /*
-   * 增 Test data
+   * 增加消息
    */
   async addMessageData(obj) {
     const key = 'message';
-    if (!this.demoDB.db.has(key).value()) {
-      this.demoDB.db.set(key, []).write();
+    if (!this.jsonDB.db.has(key).value()) {
+      this.jsonDB.db.set(key, []).write();
     }
     const id = crypto.randomBytes(16).toString('hex')
-    this.demoDB.db
+    this.jsonDB.db
       .get(key)
       .push({ id, ...obj })
       .write();
@@ -48,42 +49,62 @@ class JsondbService extends Service {
     });
     return {
       code: 200,
-      message: '添加数据成功！'
+      message: '添加消息成功！'
     };
   }
 
   /*
-   * 删 Test data
+   * 删除消息
    */
-  async delTestData(name = '') {
-    const key = this.demoDBKey.test_data;
-    const data = this.demoDB.db
-      .get(key)
-      .remove({ name: name })
-      .write();
-
-    return data;
+  async deleteMessages(objArray) {
+    const key = 'message';
+    objArray.forEach(async obj => {
+      this.jsonDB.db
+        .get(key)
+        .remove({ id: obj.id })
+        .write();
+      if (obj.type == 'file') {
+        fs.unlink(obj.fileData.filepath, (err) => {
+          if (err) {
+            console.error(`删除文件失败: ${err}`);
+          }
+        })
+      }
+    })
+    this.app.sseClient.forEach(clientRes => {
+      if (clientRes.writable) {
+        const content = 'Can refresh'
+        clientRes.write(`data: ${JSON.stringify({ content })}\n\n`);
+      } else {
+        // 如果客户端连接不可写，则从列表中移除
+        this.app.sseClient.delete(clientRes);
+      }
+    });
+    return {
+      code: 200,
+      message: '删除消息成功！'
+    }
   }
 
   /*
    * 改 Test data
    */
-  async updateTestData(name = '', age = 0) {
-    const key = this.demoDBKey.test_data;
-    const data = this.demoDB.db
-      .get(key)
-      .find({ name: name }) // 修改找到的第一个数据，貌似无法批量修改 todo
-      .assign({ age: age })
-      .write();
+  // async updateTestData(name = '', age = 0) {
+  //   const key = this.jsonDBKey.test_data;
+  //   const data = this.jsonDB.db
+  //     .get(key)
+  //     .find({ name: name }) // 修改找到的第一个数据，貌似无法批量修改 todo
+  //     .assign({ age: age })
+  //     .write();
 
-    return data;
-  }
+  //   return data;
+  // }
 
   /*
-   * 查 Test data
+   * 获取消息列表
    */
   async getMessageList() {
-    let data = this.demoDB.db
+    let data = this.jsonDB.db
       .get('message')
       //.find({age: age}) 查找单个
       // .filter(function(o) {
@@ -105,27 +126,27 @@ class JsondbService extends Service {
   /*
    * all Test data
    */
-  async getAllTestData() {
-    const key = this.demoDBKey.test_data;
-    if (!this.demoDB.db.has(key).value()) {
-      this.demoDB.db.set(key, []).write();
-    }
-    let data = this.demoDB.db
-      .get(key)
-      .value();
+  // async getAllTestData() {
+  //   const key = this.jsonDBKey.test_data;
+  //   if (!this.jsonDB.db.has(key).value()) {
+  //     this.jsonDB.db.set(key, []).write();
+  //   }
+  //   let data = this.jsonDB.db
+  //     .get(key)
+  //     .value();
 
-    if (_.isEmpty(data)) {
-      data = []
-    }
+  //   if (_.isEmpty(data)) {
+  //     data = []
+  //   }
 
-    return data;
-  }
+  //   return data;
+  // }
 
   /*
    * get data dir (sqlite)
    */
   async getDataDir() {
-    const dir = this.demoDB.getStorageDir();
+    const dir = this.jsonDB.getStorageDir();
 
     return dir;
   }
@@ -140,7 +161,7 @@ class JsondbService extends Service {
 
     // the absolute path of the db file
     const dbFile = path.join(dir, this.jsonFile);
-    this.demoDB = Storage.connection(dbFile);
+    this.jsonDB = Storage.connection(dbFile);
 
     return;
   }

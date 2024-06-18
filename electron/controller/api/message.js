@@ -34,6 +34,11 @@ class MessageController extends Controller {
     return result;
   }
 
+  async deleteMessages(args) {
+    const result = await Services.get('jsondb').deleteMessages(args.data);
+    return result;
+  }
+
   async uploadFile(args) {
     const result = await Services.get('uploadFile').saveFile(args.file);
     return result;
@@ -41,7 +46,7 @@ class MessageController extends Controller {
 
   async downLoadFile(args) {
     // 设置响应头，指定内容类型为application/octet-stream，并且设置Content-Disposition以提示浏览器进行文件下载
-    this.app.response.set({ 'content-type': 'application/octet-stream'});
+    this.app.response.set({ 'content-type': 'application/octet-stream' });
     const result = await Services.get('uploadFile').getFile(args.query);
     return result;
   }
