@@ -15,7 +15,7 @@
           <Button icon="pi pi-language" text raised rounded aria-label="Language" />
         </view>
         <view style="margin-top: 10px;">
-          <uni-link href="https://easysend.channer.cn/">版本 1.0.5（持续更新中）</uni-link>
+          <uni-link href="https://easysend.channer.cn/">版本 1.1.0（持续更新中）</uni-link>
         </view>
         <view style="margin-top: 10px;">
           Copyright © 2024 EasySend. All Rights Reserved.

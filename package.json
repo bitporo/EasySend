@@ -1,6 +1,6 @@
 {
   "name": "easy-send",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "A simple share text and file program",
   "main": "main.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "electron-egg",
     "ElectronEgg"
   ],
-  "author": "zp, Inc <bitporo@qq.com>",
+  "author": "bitporo, Inc <bitporo@qq.com>",
   "license": "Apache",
   "devDependencies": {
     "@electron/rebuild": "^3.2.13",
