@@ -75,19 +75,37 @@
         baseUrl: `http://${window.location.hostname}:7071/api`,
         uploadTask: null,
         hasEnter: false,
+        hasSelectContent: false, // 是否有选中文本
         contextMenu: [{
+          visible: () => {
+            return !this.hasSelectContent
+          },
           label: '删除',
           icon: 'pi pi-trash',
           command: () => {
-            console.log(this.onRightClickItem)
             uni.showModal({
               title: '提示',
               content: '确认删除吗？',
               confirmColor: 'var(--p-primary-color)',
               cancelColor: 'var(--p-surface-500)',
-              success: () => {
-                this.deleteItems([this.onRightClickItem])
+              success: (res) => {
+                if (res.confirm) {
+                  this.deleteItems([this.onRightClickItem])
+                }
               }
+            })
+          }
+        }, {
+          visible: () => {
+            return this.hasSelectContent
+          },
+          label: '复制',
+          icon: 'pi pi-copy',
+          command: () => {
+            document.execCommand('copy')
+            uni.showToast({
+              icon: 'success',
+              title: '已复制',
             })
           }
         }]
@@ -119,6 +137,7 @@
         if (this.hasEnter) {
           return
         }
+        console.log('handleDragEnter--->', e.dataTransfer.files)
         e.preventDefault();
         this.hasEnter = true
       },
@@ -129,6 +148,7 @@
         this.hasEnter = false
       },
       handleDrop(e) {
+        console.log('handleDrop--->', e.dataTransfer.files)
         this.hasEnter = false
         this.$refs.popup.open()
         e.preventDefault(); // 阻止浏览器默认处理文件拖放
@@ -252,7 +272,12 @@
         });
       },
       onItemRightClick(event, itemData) {
-        console.log(itemData)
+        const selection = window.getSelection();
+        if (selection.toString()) {
+          this.hasSelectContent = true
+        } else {
+          this.hasSelectContent = false
+        }
         this.onRightClickItem = itemData
         this.$refs.contextMenuRef.show(event);
       }
