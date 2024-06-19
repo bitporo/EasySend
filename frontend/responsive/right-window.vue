@@ -1,6 +1,6 @@
 <template>
   <view class="right-content">
-    <Card style="background-color: var(--p-surface-100);">
+    <Card>
       <template #content>
         <view style="color: var(--p-text-color);">
           <view class="intro-title">共享访问地址：</view>

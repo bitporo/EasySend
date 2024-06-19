@@ -5,17 +5,17 @@ import Aura from '@primevue/themes/aura';
 export const Noir = definePreset(Aura, {
   semantic: {
     primary: {
-      50: '{surface.50}',
-      100: '{surface.100}',
-      200: '{surface.200}',
-      300: '{surface.300}',
-      400: '{surface.400}',
-      500: '{surface.500}',
-      600: '{surface.600}',
-      700: '{surface.700}',
-      800: '{surface.800}',
-      900: '{surface.900}',
-      950: '{surface.950}'
+      50: '{zinc.50}',
+      100: '{zinc.100}',
+      200: '{zinc.200}',
+      300: '{zinc.300}',
+      400: '{zinc.400}',
+      500: '{zinc.500}',
+      600: '{zinc.600}',
+      700: '{zinc.700}',
+      800: '{zinc.800}',
+      900: '{zinc.900}',
+      950: '{zinc.950}'
     },
     colorScheme: {
       light: {

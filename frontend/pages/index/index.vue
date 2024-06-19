@@ -291,7 +291,7 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-color: white;
+    // background-color: white;
     border: 1px solid var(--p-content-border-color);
 
     .scroll-view {
