@@ -14,9 +14,6 @@
         </view>
       </template>
     </Card>
-    <!--    <view>
-      <view class="intro-title">共享访问地址：</view>
-    </view> -->
     <view>
       <uni-collapse accordion>
         <uni-collapse-item title="反馈交流">

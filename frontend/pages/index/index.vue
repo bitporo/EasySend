@@ -137,7 +137,10 @@
         if (this.hasEnter) {
           return
         }
-        console.log('handleDragEnter--->', e.dataTransfer.files)
+        if (!e.dataTransfer.types.includes('Files')) {
+          return
+        }
+        // console.log('handleDragEnter--->', e.dataTransfer.types)
         e.preventDefault();
         this.hasEnter = true
       },
