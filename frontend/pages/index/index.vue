@@ -355,7 +355,7 @@
     color: var(--p-primary-color);
 
     .file-block {
-      background-color: white;
+      background-color: var(--p-primary-secondary-color);
       padding: 15px;
       // width: 40%;
       border-radius: 8px;

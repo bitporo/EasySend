@@ -26,6 +26,9 @@ export function createApp() {
   app.use(PrimeVue, {
     theme: {
       preset: Noir,
+      options: {
+        // darkModeSelector: '.app-dark',
+      }
     }
   });
   return {

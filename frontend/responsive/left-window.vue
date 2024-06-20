@@ -3,16 +3,16 @@
     <view style="display: flex;flex-direction: column;justify-content: space-between;height: 100%;">
       <view style="display: flex;align-items: center;">
         <!-- <image src="@/static/logo.png" style="width: 50px;flex-shrink: 0;" mode="widthFix"></image> -->
-        <Logo style="width: 50px;height: 50px;"/>
+        <Logo style="width: 50px;height: 50px;" />
         <view>
-          <view style="margin: 10px;font-weight: bold;">简传</view>
-          <view style="margin: 10px;font-size: 14px;color: #686868;">简单使用，传递方便</view>
+          <view style="margin: 10px;font-weight: bold;color: var(--p-primary-color);">简传</view>
+          <view style="margin: 10px;font-size: 14px;color: var(--p-primary-active-color);">简单使用，传递方便</view>
         </view>
       </view>
       <view style="font-size: 12px;color: #686868;">
         <view style="display: flex;gap: 10px;">
           <Button icon="pi pi-palette" text raised rounded aria-label="Theme" />
-          <Button icon="pi pi-sun" text raised rounded aria-label="Toggle" />
+          <Button icon="pi pi-sun" text raised rounded aria-label="Toggle" @click="toggleColorScheme()"/>
           <Button icon="pi pi-language" text raised rounded aria-label="Language" />
         </view>
         <view style="margin-top: 10px;">
@@ -29,6 +29,9 @@
 <script setup>
   import Button from "primevue/button"
   import Logo from './icons/Logo.vue'
+  function toggleColorScheme() {
+    document.body.classList.toggle("app-dark");
+  }
 </script>
 
 <style scoped>
