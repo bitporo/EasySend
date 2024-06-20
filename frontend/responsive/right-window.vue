@@ -4,11 +4,11 @@
       <template #content>
         <view style="color: var(--p-text-color);">
           <view class="intro-title">共享访问地址：</view>
-          <view v-for="url in urlList" style="margin-bottom: 10px;">
+          <view v-for="(url,inedx) in urlList" style="margin-bottom: 10px;">
             <uni-link :href="url" color="var(--p-surface-500)">
               <text ref="urlLink">{{url}}</text>
             </uni-link>
-            <i class="pi pi-clone icon-button"  @click="onCopy(url)"></i>
+            <i class="pi pi-clone icon-button"  @click="onCopy(inedx)"></i>
             <i class="pi pi-qrcode icon-button" @click="onQrcode(`${url}/#/pages/qrcode/qrcode?url=${url}`)"></i>
           </view>
         </view>
@@ -76,9 +76,8 @@
           this.urlList = ipList.map(ip => `http://${ip}:7072`)
         })
       },
-      onCopy(url) {
-        console.log(this.$refs.urlLink)
-        window.getSelection().selectAllChildren(this.$refs.urlLink[0].$el)
+      onCopy(index) {
+        window.getSelection().selectAllChildren(this.$refs.urlLink[index].$el)
         document.execCommand('copy')
         uni.showToast({
           icon: 'none',
