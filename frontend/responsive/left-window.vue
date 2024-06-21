@@ -6,7 +6,7 @@
         <Logo style="width: 50px;height: 50px;" />
         <view>
           <view style="margin: 10px;font-weight: bold;color: var(--p-primary-color);">简传</view>
-          <view style="margin: 10px;font-size: 14px;color: var(--p-primary-active-color);">简单使用，传递方便</view>
+          <view style="margin: 10px;font-size: 14px;color: var(--p-primary-active-color);">简捷使用，传递方便</view>
         </view>
       </view>
       <view style="font-size: 12px;color: #686868;">
@@ -16,7 +16,7 @@
           <Button icon="pi pi-language" text raised rounded aria-label="Language" />
         </view>
         <view style="margin-top: 10px;">
-          <uni-link href="https://easysend.channer.cn/">版本 1.1.0（持续更新中）</uni-link>
+          <uni-link href="https://easysend.channer.cn/">版本 1.1.1（持续更新中）</uni-link>
         </view>
         <view style="margin-top: 10px;">
           Copyright © 2024 EasySend. All Rights Reserved.
