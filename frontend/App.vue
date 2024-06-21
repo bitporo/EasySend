@@ -16,7 +16,7 @@
 /*    background-color: #f2f2f2; */
     /*uniapp默认不能选择文本，此处重置 */
     user-select: text;
-    background-color: var(--p-primary-contrast-color);
+    background-color: var(--p-app-background);
   }
   
   ::selection {
