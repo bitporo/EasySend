@@ -357,7 +357,7 @@
     .file-block {
       background-color: var(--p-primary-secondary-color);
       padding: 15px;
-      max-width: 50%;
+      width: 50%;
       border-radius: 8px;
 
       .file-name {
