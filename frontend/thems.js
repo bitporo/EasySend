@@ -35,7 +35,8 @@ export const Noir = definePreset(Aura, {
           950: '{slate.950}'
         },
         app: {
-          background: '{surface.50}'
+          background: '{surface.50}',
+          ip: '{primary.600}'
         },
         primary: {
           color: '{primary.950}',
@@ -67,10 +68,11 @@ export const Noir = definePreset(Aura, {
           950: '{zinc.950}'
         },
         content: {
-          background: '{surface.900}'
+          background: '{surface.900}',
         },
         app: {
           background: '{surface.950}',
+          ip: '{surface.500}'
         },
         primary: {
           color: '{surface.400}',

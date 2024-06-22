@@ -30,13 +30,20 @@ class MessageController extends Controller {
   }
 
   async addMessageData(args) {
+    args.data.ip = this.app.request.ip
     const result = await Services.get('jsondb').addMessageData(args.data);
     return result;
   }
 
   async deleteMessages(args) {
-    const result = await Services.get('jsondb').deleteMessages(args.data);
-    return result;
+    if (this.app.request.ip == '127.0.0.1' || args.data.id == this.app.request.ip) {
+      return await Services.get('jsondb').deleteMessages(args.data);
+    } else {
+      return {
+        code: 500,
+        message: '与本机ip不同，不能删除！'
+      }
+    }
   }
 
   async uploadFile(args) {

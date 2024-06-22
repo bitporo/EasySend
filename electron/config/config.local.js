@@ -9,21 +9,27 @@ module.exports = (appInfo) => {
   /**
    * 开发者工具
    */
-  config.openDevTools = {
-    mode: 'undocked'
-  };
+  config.openDevTools = true;
 
   /**
    * 应用程序顶部菜单
    */
-  config.openAppMenu = true;
+  config.openAppMenu = false;
+
+  /**
+   * 远程模式-web地址
+   */
+  config.remoteUrl = {
+    enable: true,
+    url: 'http://localhost:5173'
+  };
 
   /**
    * jobs
    */
   config.jobs = {
     messageLog: true
-  };   
+  };
 
   return {
     ...config

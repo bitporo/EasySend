@@ -24,6 +24,8 @@
               <Button icon="pi pi-download" aria-label="下载" severity="secondary" @click="handleDownLoadFile(data)" />
             </div>
           </div>
+          <view v-if="data.ip" style="margin-top: 5px;"><text
+              style="font-size: 12px;color: var(--p-app-ip);">{{data.ip}}</text></view>
         </div>
       </div>
     </div>
@@ -79,6 +81,13 @@
         contextMenu: [{
           visible: () => {
             return !this.hasSelectContent
+          },
+          disabled: () => {
+            if (!window.process?.versions?.electron) { // 如果不在客户端内, 非electron环境不能删除
+              return this.onRightClickItem?.ip != getApp().globalData.myIp // 则只有自己发布的才能删除
+            } else {
+              return false
+            }
           },
           label: '删除',
           icon: 'pi pi-trash',
@@ -239,10 +248,17 @@
             data
           }
         }).then(res => {
-          uni.showToast({
-            icon: 'success',
-            title: '消息删除成功！'
-          })
+          if (res.data.code == 200) {
+            uni.showToast({
+              icon: 'success',
+              title: '消息删除成功！'
+            })
+          } else {
+            uni.showToast({
+              icon: 'error',
+              title: res.data.message
+            })
+          }
         })
       },
       computeSize(size) {

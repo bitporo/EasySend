@@ -84,6 +84,7 @@
     },
     mounted() {
       this.getHost()
+      this.getMyHost()
     },
     methods: {
       getHost() {
@@ -97,6 +98,14 @@
             return !(/^1$/.test(arr[arr.length - 1]))
           })
           this.urlList = ipList.map(ip => `http://${ip}:7072`)
+        })
+      },
+      getMyHost() {
+        uni.request({
+          url: `http://${window.location.hostname}:7071/api` + '/system/getMyIp',
+          method: 'GET'
+        }).then(res => {
+          getApp().globalData.myIp = res.data.ip
         })
       },
       onCopy(index) {

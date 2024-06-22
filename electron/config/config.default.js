@@ -8,15 +8,6 @@ const path = require('path');
 module.exports = (appInfo) => {
   const config = {};
 
-  /**
-   * 开发者工具
-   */
-  config.openDevTools = false;
-
-  /**
-   * 应用程序顶部菜单
-   */
-  config.openAppMenu = false;
 
   /**
    * 主窗口
@@ -52,14 +43,6 @@ module.exports = (appInfo) => {
     coreLogName: 'ee-core.log',
     errorLogName: 'ee-error.log'
   }
-
-  /**
-   * 远程模式-web地址
-   */
-  config.remoteUrl = {
-    enable: false,
-    url: 'http://localhost:7072'
-  };
 
   /**
    * 内置socket服务
