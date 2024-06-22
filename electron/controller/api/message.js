@@ -41,7 +41,7 @@ class MessageController extends Controller {
     } else {
       return {
         code: 500,
-        message: '与本机ip不同，不能删除！'
+        message: '非本机消息，不能删除！'
       }
     }
   }

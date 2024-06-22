@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="input-module">
-      <Textarea v-model="contentValue" placeholder="请输入内容" rows="4" style="flex: 1;" />
+      <Textarea v-model="contentValue" placeholder="请输入内容" rows="4" style="flex: 1;" @keyup.enter="handleSend()"/>
       <div style="display: flex;flex-direction: column;gap: 10px;">
         <Button icon="pi pi-file-arrow-up" aria-label="传文件" severity="secondary" @click="handleFileChoose" />
         <Button icon="pi pi-send" aria-label="传文本" :loading="loading" @click="handleSend()" />
@@ -83,7 +83,7 @@
             return !this.hasSelectContent
           },
           disabled: () => {
-            if (!window.process?.versions?.electron) { // 如果不在客户端内, 非electron环境不能删除
+            if (!window.process?.versions?.electron) { // 如果不在客户端(electron)内
               return this.onRightClickItem?.ip != getApp().globalData.myIp // 则只有自己发布的才能删除
             } else {
               return false
@@ -129,6 +129,9 @@
       this.initSSE()
     },
     methods: {
+      idShowIp(ip) {
+        return ip != getApp().globalData.myIp
+      },
       initSSE() {
         const eventSource = new EventSource(`http://${window.location.hostname}:7080/sse`);
         eventSource.onmessage = (event) => {
