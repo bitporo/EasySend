@@ -25,5 +25,9 @@
     color: var(--p-surface-950);
     /* 文字颜色 */
   }
+  
+  :deep(.uni-modal__title){
+    color: var(--p-primary-950);
+  }
   /*每个页面公共css */
 </style>

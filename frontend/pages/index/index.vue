@@ -86,7 +86,7 @@
             uni.showModal({
               title: '提示',
               content: '确认删除吗？',
-              confirmColor: 'var(--p-primary-color)',
+              confirmColor: 'var(--p-primary-950)',
               cancelColor: 'var(--p-surface-500)',
               success: (res) => {
                 if (res.confirm) {
