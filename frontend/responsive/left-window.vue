@@ -11,8 +11,8 @@
       </view>
       <view style="font-size: 12px;color: #686868;">
         <view style="display: flex;gap: 10px;">
-          <Button icon="pi pi-palette" text raised rounded aria-label="Theme" />
-          <Button icon="pi pi-sun" text raised rounded aria-label="Toggle" @click="toggleColorScheme()"/>
+          <!-- <Button icon="pi pi-palette" text raised rounded aria-label="Theme" @click="changePrimaryColor"/> -->
+          <!-- <Button icon="pi pi-sun" text raised rounded aria-label="Toggle" @click="toggleColorScheme()"/> -->
           <Button icon="pi pi-language" text raised rounded aria-label="Language" />
         </view>
         <view style="margin-top: 10px;">
@@ -29,9 +29,6 @@
 <script setup>
   import Button from "primevue/button"
   import Logo from './icons/Logo.vue'
-  function toggleColorScheme() {
-    document.body.classList.toggle("app-dark");
-  }
 </script>
 
 <style scoped>
