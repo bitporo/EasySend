@@ -17,6 +17,13 @@ module.exports = (appInfo) => {
   config.openAppMenu = false;
 
   /**
+   * 远程模式-web地址
+   */
+  config.remoteUrl = {
+    enable: false,
+  };
+
+  /**
    * jobs
    */
   config.jobs = {

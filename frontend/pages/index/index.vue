@@ -65,7 +65,6 @@
     },
     data() {
       return {
-        textMode: true, // 1：文本，2：文件
         contentValue: '',
         loading: false,
         messageList: [],

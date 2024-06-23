@@ -36,14 +36,14 @@
     "build-lp-64": "electron-builder --config=./electron/config/builder.json -l=pacman --x64",
     "test": "set DEBUG=* && electron . --env=local"
   },
-  "repository": "https://github.com/dromara/electron-egg.git",
+  "repository": "https://gitee.com/easy-send/easy-send",
   "keywords": [
     "Electron",
     "electron-egg",
     "ElectronEgg"
   ],
   "author": "bitporo <bitporo@qq.com>",
-  "license": "Apache",
+  "license": "GPL-2.0-only",
   "devDependencies": {
     "@electron/rebuild": "^3.2.13",
     "debug": "^4.3.3",
