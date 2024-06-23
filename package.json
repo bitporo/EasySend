@@ -37,10 +37,12 @@
     "test": "set DEBUG=* && electron . --env=local"
   },
   "repository": "https://gitee.com/easy-send/easy-send",
+  "homepage": "https://easysend.channer.cn",
   "keywords": [
-    "Electron",
-    "electron-egg",
-    "ElectronEgg"
+    "Share",
+    "Share Files",
+    "Share Message",
+    "Share Text"
   ],
   "author": "bitporo <bitporo@qq.com>",
   "license": "GPL-2.0-only",
