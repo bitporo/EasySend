@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="input-module">
-      <Textarea v-model="contentValue" placeholder="请输入内容" rows="4" style="flex: 1;" @keyup.enter="handleSend()"/>
+      <Textarea v-model="contentValue" placeholder="请输入内容" rows="4" style="flex: 1;" @keyup.ctrl.enter="handleSend()"/>
       <div style="display: flex;flex-direction: column;gap: 10px;">
         <Button icon="pi pi-file-arrow-up" aria-label="传文件" severity="secondary" @click="handleFileChoose" />
         <Button icon="pi pi-send" aria-label="传文本" :loading="loading" @click="handleSend()" />
