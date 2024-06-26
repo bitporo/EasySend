@@ -36,12 +36,12 @@ class MessageController extends Controller {
   }
 
   async deleteMessages(args) {
-    if (this.app.request.ip == '127.0.0.1' || args.data.id == this.app.request.ip) {
+    if (this.app.request.ip == '127.0.0.1' || args.data[0].ip == this.app.request.ip) {
       return await Services.get('jsondb').deleteMessages(args.data);
     } else {
       return {
         code: 500,
-        message: '非本机消息，不能删除！'
+        message: '非本机发送消息，不能删除！'
       }
     }
   }

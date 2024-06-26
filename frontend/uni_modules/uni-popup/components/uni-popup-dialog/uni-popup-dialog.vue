@@ -232,6 +232,7 @@
 	}
 
 	.uni-dialog-title-text {
+    color: var(--p-primary-950);
 		font-size: 16px;
 		font-weight: 500;
 	}
@@ -281,11 +282,11 @@
 
 	.uni-dialog-button-text {
 		font-size: 16px;
-		color: #333;
+		color: var(--p-surface-500);
 	}
 
 	.uni-button-color {
-		color: var(--p-primary-color);
+		color: var(--p-primary-950);
 	}
 
 	.uni-dialog-input {
