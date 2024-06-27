@@ -15,8 +15,8 @@
                 <i class="pi pi-file"></i>
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
-              <div>
-                <progress v-if="onDownLoadItemId == data.id" :percent="downLoadProcess" stroke-width="3" />
+              <div v-if="onDownLoadItemId == data.id" style="margin-top: 10px;">
+                <progress :percent="downLoadProcess" stroke-width="3" activeColor="var(--p-primary-color)"/>
               </div>
             </div>
             <text style="color: var(--p-primary-contrast-color)">{{ computeSize(data.fileData.size) }}</text>
@@ -283,11 +283,11 @@
       handleDownLoadFile(itemData) {
         const url = this.baseUrl + '/message/downLoadFile' +
           `?path=${encodeURIComponent(itemData.fileData.filepath)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}`
-        this.onItemId = itemData.id
+        this.onDownLoadItemId = itemData.id
         const downloadTask = uni.downloadFile({
           url: url,
           success: (res) => {
-            this.onItemId = ''
+            this.onDownLoadItemId = ''
             const a = document.createElement('a')
             a.href = res.tempFilePath
             a.download = itemData.fileData.originalFilename
