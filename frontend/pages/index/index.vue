@@ -25,12 +25,13 @@
             </div>
           </div>
           <view v-if="data.ip" style="margin-top: 5px;"><text
-              style="font-size: 12px;color: var(--p-app-ip);">{{data.ip}}</text></view>
+              style="font-size: 12px;color: var(--p-app-ip);">{{ipShow(data.ip)}}</text></view>
         </div>
       </div>
     </div>
     <div class="input-module">
-      <Textarea v-model="contentValue" placeholder="请输入内容, Ctrl+Enter可快捷发送" rows="4" style="flex: 1;" @keyup.ctrl.enter="handleSend()"/>
+      <Textarea v-model="contentValue" placeholder="请输入内容, Ctrl+Enter可快捷发送" rows="4" style="flex: 1;"
+        @keyup.ctrl.enter="handleSend()" />
       <div style="display: flex;flex-direction: column;gap: 10px;">
         <Button icon="pi pi-file-arrow-up" aria-label="传文件" severity="secondary" @click="handleFileChoose" />
         <Button icon="pi pi-send" aria-label="传文本" :loading="loading" @click="handleSend()" />
@@ -128,8 +129,14 @@
       this.initSSE()
     },
     methods: {
-      idShowIp(ip) {
-        return ip != getApp().globalData.myIp
+      ipShow(ip) {
+        if (ip == '127.0.0.1') {
+          return '主机'
+        } else if (ip == getApp().globalData.myIp) {
+          return '本机'
+        } else {
+          return ip
+        }
       },
       initSSE() {
         const eventSource = new EventSource(`http://${window.location.hostname}:7080/sse`);
@@ -162,7 +169,6 @@
         this.hasEnter = false
       },
       handleDrop(e) {
-        console.log('handleDrop--->', e.dataTransfer.files)
         this.hasEnter = false
         this.$refs.popup.open()
         e.preventDefault(); // 阻止浏览器默认处理文件拖放

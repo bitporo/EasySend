@@ -6,7 +6,7 @@
         <Logo style="width: 50px;height: 50px;" />
         <view>
           <view style="margin: 10px;font-weight: bold;color: var(--p-primary-color);">简传</view>
-          <view style="margin: 10px;font-size: 14px;color: var(--p-primary-active-color);">简捷使用，传递方便</view>
+          <view style="margin: 10px;font-size: 14px;color: var(--p-primary-active-color);">简捷使用，传送方便</view>
         </view>
       </view>
       <view style="font-size: 12px;color: #686868;">
