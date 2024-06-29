@@ -289,9 +289,7 @@
       },
       handleDownLoadFile(itemData) {
         const url = this.baseUrl + '/message/downLoadFile' +
-          `?path=${encodeURIComponent(itemData.fileData.filepath)}
-          &name=${encodeURIComponent(itemData.fileData.originalFilename)}
-          &size=${itemData.fileData.size}`
+          `?path=${encodeURIComponent(itemData.fileData.filepath)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}&size=${itemData.fileData.size}`
         // 暂停使用通过接口获取文件数据再触发浏览器下载，因blob限制有大文件下载问题
         // this.onDownLoadItemId = itemData.id
         // const downloadTask = uni.downloadFile({
@@ -309,17 +307,26 @@
         // });
         // window.open(url)
 
-        // 在electron里，ipc存在，显示进度条
+        // 在electron里，ipc存在
         if (ipc) {
+          // ipc.removeListener('progress');
           ipc.removeAllListeners('progress');
           ipc.on('progress', (event, result) => {
-            itemData.downLoadProcess = result * 100
-            if (itemData.downLoadProcess == 100) {
-              itemData.downLoadProcess = 0
+            // 下载成功提示
+            if (result == 'success') {
               uni.showToast({
                 icon: 'success',
-                title: '下载完成'
+                title: '下载完成！'
               })
+            } else if (result == 'failed') {
+              // 若下载失败或取消下载，重置进度条
+              itemData.downLoadProcess = 0
+            } else {
+              // 下载进度
+              itemData.downLoadProcess = result * 100
+              if (itemData.downLoadProcess == 100) {
+                itemData.downLoadProcess = 0
+              }
             }
           })
         }

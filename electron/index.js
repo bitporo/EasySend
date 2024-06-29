@@ -102,8 +102,10 @@ class Index extends Application {
         win.setProgressBar(-1)
         if (state === 'completed') {
           console.log('Download successfully')
+          webContents.send('progress', 'success')
         } else {
           console.log(`Download failed: ${state}`)
+          webContents.send('progress', 'failed')
         }
       })
     })
