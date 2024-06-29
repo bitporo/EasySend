@@ -15,8 +15,8 @@
                 <i class="pi pi-file"></i>
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
-              <div v-if="onDownLoadItemId == data.id" style="margin-top: 10px;">
-                <progress :percent="downLoadProcess" stroke-width="3" activeColor="var(--p-primary-color)" />
+              <div v-if="data.downLoadProcess" style="margin-top: 10px;">
+                <progress :percent="data.downLoadProcess" stroke-width="3" activeColor="var(--p-primary-color)" />
               </div>
             </div>
             <text style="color: var(--p-primary-contrast-color)">{{ computeSize(data.fileData.size) }}</text>
@@ -53,6 +53,9 @@
   import {
     nextTick
   } from 'vue'
+  import {
+    ipc
+  } from '@/utils/ipcRenderer';
   import IconFile from './IconFile.vue'
   import Button from "primevue/button"
   import Textarea from 'primevue/textarea';
@@ -286,7 +289,9 @@
       },
       handleDownLoadFile(itemData) {
         const url = this.baseUrl + '/message/downLoadFile' +
-          `?path=${encodeURIComponent(itemData.fileData.filepath)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}&size=${itemData.fileData.size}`
+          `?path=${encodeURIComponent(itemData.fileData.filepath)}
+          &name=${encodeURIComponent(itemData.fileData.originalFilename)}
+          &size=${itemData.fileData.size}`
         // 暂停使用通过接口获取文件数据再触发浏览器下载，因blob限制有大文件下载问题
         // this.onDownLoadItemId = itemData.id
         // const downloadTask = uni.downloadFile({
@@ -303,6 +308,21 @@
         //   this.downLoadProcess = (res.totalBytesWritten / itemData.fileData.size) * 100
         // });
         // window.open(url)
+
+        // 在electron里，ipc存在，显示进度条
+        if (ipc) {
+          ipc.removeAllListeners('progress');
+          ipc.on('progress', (event, result) => {
+            itemData.downLoadProcess = result * 100
+            if (itemData.downLoadProcess == 100) {
+              itemData.downLoadProcess = 0
+              uni.showToast({
+                icon: 'success',
+                title: '下载完成'
+              })
+            }
+          })
+        }
         const a = document.createElement('a')
         a.href = url
         a.click()

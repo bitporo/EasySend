@@ -1,5 +1,5 @@
 const { Application } = require('ee-core');
-const { app, Menu } = require('electron')
+const { app, Menu, session } = require('electron')
 const http = require('http');
 
 class Index extends Application {
@@ -52,6 +52,7 @@ class Index extends Application {
 
     // 将响应列表挂到eggapp上
     this.sseClient = clients
+
   }
 
   /**
@@ -65,7 +66,7 @@ class Index extends Application {
    * electron app ready
    */
   async electronAppReady() {
-    // do some things
+
   }
 
   /**
@@ -75,13 +76,37 @@ class Index extends Application {
     // do some things
     // 延迟加载，无白屏
     const winOpt = this.config.windowsOption;
+    const win = this.electron.mainWindow;
     if (winOpt.show == false) {
-      const win = this.electron.mainWindow;
       win.once('ready-to-show', () => {
         win.show();
         win.focus();
       })
     }
+    // do some things
+    session.defaultSession.on('will-download', (downloadevent, item, webContents) => {
+      item.on('updated', (event, state) => {
+        if (state === 'interrupted') {
+          console.log('Download is interrupted but can be resumed')
+        } else if (state === 'progressing') {
+          if (item.isPaused()) {
+            console.log('Download is paused')
+          } else {
+            const progress = (item.getReceivedBytes() / item.getTotalBytes()).toFixed(2)
+            webContents.send('progress', progress)
+            win.setProgressBar(parseFloat(progress))
+          }
+        }
+      })
+      item.once('done', (event, state) => {
+        win.setProgressBar(-1)
+        if (state === 'completed') {
+          console.log('Download successfully')
+        } else {
+          console.log(`Download failed: ${state}`)
+        }
+      })
+    })
   }
 
   /**
