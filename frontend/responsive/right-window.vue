@@ -4,9 +4,9 @@
       <template #content>
         <view style="color: var(--p-primary-color);">
           <view class="intro-title">共享访问地址：</view>
-          <view v-for="(url,inedx) in urlList" style="margin-bottom: 10px;">
+          <view v-for="(url, inedx) in urlList" style="margin-bottom: 10px;">
             <uni-link :href="url" color="var(--p-primary-color)">
-              <text ref="urlLink">{{url}}</text>
+              <text ref="urlLink">{{ url }}</text>
             </uni-link>
             <i class="pi pi-clone icon-button" @click="onCopy(inedx)"></i>
             <i class="pi pi-qrcode icon-button" @click="onQrcode(`${url}/#/pages/qrcode/qrcode?url=${url}`)"></i>
@@ -21,10 +21,11 @@
           <AccordionContent class="intro-content">
             <view>
               <text>
-                QQ群: 793644362
+                加作者微信进群，或QQ群: 793644362
               </text>
               <view style="background-color: #f5f5f5;padding: 10px;margin-top: 10px;">
-                <image src="../static/qun.jpg" style="width: 100%;" mode="aspectFit"></image>
+                <image src="../static/wx.png" style="width: 50%;" mode="aspectFit"></image>
+                <image src="../static/qun.jpg" style="width: 50%;" mode="aspectFit"></image>
               </view>
             </view>
           </AccordionContent>
@@ -53,7 +54,7 @@
           <AccordionHeader>赞助作者</AccordionHeader>
           <AccordionContent class="intro-content">
             <view style="text-align: center;">
-              <image src="../static/微信支付宝二合一收款码.jpg" style="width: 100%;" mode="aspectFit"></image>
+              <image src="../static/wxalipay.jpg" style="width: 100%;" mode="aspectFit"></image>
               <view>如果本软件帮到了您，可赞助作者</view>
             </view>
           </AccordionContent>
@@ -64,90 +65,90 @@
 </template>
 
 <script>
-  import Card from 'primevue/card';
-  import Accordion from 'primevue/accordion';
-  import AccordionPanel from 'primevue/accordionpanel';
-  import AccordionHeader from 'primevue/accordionheader';
-  import AccordionContent from 'primevue/accordioncontent';
-  export default {
-    components: {
-      Card,
-      Accordion,
-      AccordionPanel,
-      AccordionHeader,
-      AccordionContent
-    },
-    data() {
-      return {
-        urlList: []
-      }
-    },
-    mounted() {
-      this.getHost()
-      this.getMyHost()
-    },
-    methods: {
-      getHost() {
-        uni.request({
-          url: `http://${window.location.hostname}:7071/api` + '/system/getHostIp',
-          method: 'GET'
-        }).then(res => {
-          const ipList = res.data.filter(item => {
-            const arr = item.split('.')
-            // 判断ip最后一位是否为1
-            return !(/^1$/.test(arr[arr.length - 1]))
-          })
-          this.urlList = ipList.map(ip => `http://${ip}:7072`)
+import Card from 'primevue/card';
+import Accordion from 'primevue/accordion';
+import AccordionPanel from 'primevue/accordionpanel';
+import AccordionHeader from 'primevue/accordionheader';
+import AccordionContent from 'primevue/accordioncontent';
+export default {
+  components: {
+    Card,
+    Accordion,
+    AccordionPanel,
+    AccordionHeader,
+    AccordionContent
+  },
+  data() {
+    return {
+      urlList: []
+    }
+  },
+  mounted() {
+    this.getHost()
+    this.getMyHost()
+  },
+  methods: {
+    getHost() {
+      uni.request({
+        url: `http://${window.location.hostname}:7071/api` + '/system/getHostIp',
+        method: 'GET'
+      }).then(res => {
+        const ipList = res.data.filter(item => {
+          const arr = item.split('.')
+          // 判断ip最后一位是否为1
+          return !(/^1$/.test(arr[arr.length - 1]))
         })
-      },
-      getMyHost() {
-        uni.request({
-          url: `http://${window.location.hostname}:7071/api` + '/system/getMyIp',
-          method: 'GET'
-        }).then(res => {
-          getApp().globalData.myIp = res.data.ip
-        })
-      },
-      onCopy(index) {
-        window.getSelection().selectAllChildren(this.$refs.urlLink[index].$el)
-        document.execCommand('copy')
-        uni.showToast({
-          icon: 'none',
-          title: '已复制'
-        })
-      },
-      onQrcode(url) {
-        window.open(url)
-      }
+        this.urlList = ipList.map(ip => `http://${ip}:7072`)
+      })
+    },
+    getMyHost() {
+      uni.request({
+        url: `http://${window.location.hostname}:7071/api` + '/system/getMyIp',
+        method: 'GET'
+      }).then(res => {
+        getApp().globalData.myIp = res.data.ip
+      })
+    },
+    onCopy(index) {
+      window.getSelection().selectAllChildren(this.$refs.urlLink[index].$el)
+      document.execCommand('copy')
+      uni.showToast({
+        icon: 'none',
+        title: '已复制'
+      })
+    },
+    onQrcode(url) {
+      window.open(url)
     }
   }
+}
 </script>
 
 <style scoped>
-  .right-content {
-    font-size: 14px;
-    padding: 20px;
-    display: flex;
-    box-sizing: border-box;
-    height: 100vh;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+.right-content {
+  font-size: 14px;
+  padding: 20px;
+  display: flex;
+  box-sizing: border-box;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-  .intro-title {
-    /* padding: 10px 0; */
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
+.intro-title {
+  /* padding: 10px 0; */
+  margin-bottom: 10px;
+  font-weight: bold;
+}
 
-  .intro-content {
-    background-color: var(--p-highlight-color);
-    /*    padding: 15px;
+.intro-content {
+  background-color: var(--p-highlight-color);
+  /*    padding: 15px;
     color: #666666; */
-  }
+}
 
-  .icon-button {
-    cursor: pointer;
-    margin-left: 10px;
-  }
+.icon-button {
+  cursor: pointer;
+  margin-left: 10px;
+}
 </style>
