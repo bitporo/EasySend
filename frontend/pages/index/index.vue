@@ -291,7 +291,6 @@
         const url = this.baseUrl + '/message/downLoadFile' +
           `?path=${encodeURIComponent(itemData.fileData.filepath)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}&size=${itemData.fileData.size}`
         // 暂停使用通过接口获取文件数据再触发浏览器下载，因blob限制有大文件下载问题
-        // this.onDownLoadItemId = itemData.id
         // const downloadTask = uni.downloadFile({
         //   url: url,
         //   success: (res) => {
@@ -309,6 +308,14 @@
 
         // 在electron里，ipc存在
         if (ipc) {
+          if (!!this.onDownLoadItemId) {
+            uni.showToast({
+              icon: 'error',
+              title: '请等待其他文件下载完成！'
+            })
+            return
+          }
+          this.onDownLoadItemId = itemData.id
           // ipc.removeListener('progress');
           ipc.removeAllListeners('progress');
           ipc.on('progress', (event, result) => {
@@ -318,9 +325,11 @@
                 icon: 'success',
                 title: '下载完成！'
               })
+              this.onDownLoadItemId = ''
             } else if (result == 'failed') {
               // 若下载失败或取消下载，重置进度条
               itemData.downLoadProcess = 0
+              this.onDownLoadItemId = ''
             } else {
               // 下载进度
               itemData.downLoadProcess = result * 100
