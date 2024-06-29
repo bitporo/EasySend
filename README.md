@@ -36,14 +36,17 @@
 
 #### 更新计划
 
-1.  分类删除，多选删除等
+1.  暗黑模式开关，主题颜色等
 
 #### 交流反馈
+<p>加作者微信进群或QQ群</p>
 <p align="center">
-  <img src="frontend/static/qun.jpg" width="500" alt="示例图片">
+  <img src="frontend/static/wx.png" width="300" alt="示例图片">
+  <img src="frontend/static/qun.jpg" width="327" alt="示例图片">
 </p>
 
 #### 赞助
 若本工具对你有用，可赞助作者💖
-
-![alt text](frontend/static/微信支付宝二合一收款码.jpg)
+<p align="center">
+  <img src="frontend/static/wxalipay.jpg" width="600" alt="示例图片">
+</p>
