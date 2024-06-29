@@ -16,7 +16,7 @@
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
               <div v-if="onDownLoadItemId == data.id" style="margin-top: 10px;">
-                <progress :percent="downLoadProcess" stroke-width="3" activeColor="var(--p-primary-color)"/>
+                <progress :percent="downLoadProcess" stroke-width="3" activeColor="var(--p-primary-color)" />
               </div>
             </div>
             <text style="color: var(--p-primary-contrast-color)">{{ computeSize(data.fileData.size) }}</text>
@@ -272,7 +272,11 @@
       computeSize(size) {
         if (size >= 1024) {
           if (size >= 1024 * 1024) { //大于等于1M
-            return (size / 1024 / 1024).toFixed(2) + 'M'
+            if (size >= 1024 * 1024 * 1024) {
+              return (size / 1024 / 1024 / 1024).toFixed(2) + 'G'
+            } else {
+              return (size / 1024 / 1024).toFixed(2) + 'M'
+            }
           } else { // 不足1M
             return (size / 1024).toFixed(2) + 'KB'
           }
@@ -282,21 +286,26 @@
       },
       handleDownLoadFile(itemData) {
         const url = this.baseUrl + '/message/downLoadFile' +
-          `?path=${encodeURIComponent(itemData.fileData.filepath)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}`
-        this.onDownLoadItemId = itemData.id
-        const downloadTask = uni.downloadFile({
-          url: url,
-          success: (res) => {
-            this.onDownLoadItemId = ''
-            const a = document.createElement('a')
-            a.href = res.tempFilePath
-            a.download = itemData.fileData.originalFilename
-            a.click()
-          }
-        });
-        downloadTask.onProgressUpdate((res) => {
-          this.downLoadProcess = (res.totalBytesWritten / itemData.fileData.size) * 100
-        });
+          `?path=${encodeURIComponent(itemData.fileData.filepath)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}&size=${itemData.fileData.size}`
+        // 暂停使用通过接口获取文件数据再触发浏览器下载，因blob限制有大文件下载问题
+        // this.onDownLoadItemId = itemData.id
+        // const downloadTask = uni.downloadFile({
+        //   url: url,
+        //   success: (res) => {
+        //     this.onDownLoadItemId = ''
+        //     const a = document.createElement('a')
+        //     a.href = res.tempFilePath
+        //     a.download = itemData.fileData.originalFilename
+        //     a.click()
+        //   }
+        // });
+        // downloadTask.onProgressUpdate((res) => {
+        //   this.downLoadProcess = (res.totalBytesWritten / itemData.fileData.size) * 100
+        // });
+        // window.open(url)
+        const a = document.createElement('a')
+        a.href = url
+        a.click()
       },
       onItemRightClick(event, itemData) {
         const selection = window.getSelection();
