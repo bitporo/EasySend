@@ -1,6 +1,9 @@
 'use strict';
 
 const path = require('path');
+const Ps = require('ee-core/ps');
+
+// console.log(Ps.getHomeDir())
 
 /**
  * 默认配置
@@ -81,6 +84,7 @@ module.exports = (appInfo) => {
       formidable: {
         keepExtensions: true,
         maxFileSize: 500 * 1024 * 1024 * 1024, // 500G上限
+        // uploadDir : Ps.getHomeDir() + '/temp' // 预留上传文件路径配置
       }
     },
     filterRequest: {

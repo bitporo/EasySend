@@ -289,7 +289,7 @@
       },
       handleDownLoadFile(itemData) {
         const url = this.baseUrl + '/message/downLoadFile' +
-          `?path=${encodeURIComponent(itemData.fileData.filepath)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}&size=${itemData.fileData.size}`
+          `?fileName=${encodeURIComponent(itemData.fileData.newFilename)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}&size=${itemData.fileData.size}`
         // 暂停使用通过接口获取文件数据再触发浏览器下载，因blob限制有大文件下载问题
         // const downloadTask = uni.downloadFile({
         //   url: url,
