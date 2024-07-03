@@ -1,7 +1,7 @@
 <template>
   <div class="content" @dragenter="handleDragEnter">
     <div ref="scrollView" class="scroll-view">
-      <div class="item-container" v-for="data in messageList" :key="data.id">
+      <div class="item-container" v-for="(data, index) in messageList" :key="data.id">
         <div class="time">{{ data.dateTime }}</div>
         <div class="item-content" @contextmenu="onItemRightClick($event, data)">
           <view v-if="data.type == 'text'">
@@ -10,7 +10,13 @@
             </text>
           </view>
           <div v-else-if="data.type == 'file'" class="file-container">
-            <div class="file-block">
+            <div class="file-block" v-if="data.fileData.mimetype.includes('image')">
+              <Image :src="getUrl(data)" ref="image" alt="图片加载失败" width="250" />
+              <div>
+                <text class="content-text">{{ data.fileData.originalFilename }}</text>
+              </div>
+            </div>
+            <div class="file-block" v-else>
               <div class="file-name">
                 <i class="pi pi-file"></i>
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
@@ -60,12 +66,14 @@
   import Button from "primevue/button"
   import Textarea from 'primevue/textarea';
   import ContextMenu from 'primevue/contextmenu';
+  import Image from 'primevue/image';
   export default {
     components: {
       IconFile,
       Textarea,
       Button,
-      ContextMenu
+      ContextMenu,
+      Image
     },
     data() {
       return {
@@ -287,9 +295,12 @@
           return size + 'B'
         }
       },
-      handleDownLoadFile(itemData) {
-        const url = this.baseUrl + '/message/downLoadFile' +
+      getUrl(itemData) {
+        return this.baseUrl + '/message/downLoadFile' +
           `?fileName=${encodeURIComponent(itemData.fileData.newFilename)}&name=${encodeURIComponent(itemData.fileData.originalFilename)}&size=${itemData.fileData.size}`
+      },
+      handleDownLoadFile(itemData) {
+        const url = this.getUrl(itemData)
         // 暂停使用通过接口获取文件数据再触发浏览器下载，因blob限制有大文件下载问题
         // const downloadTask = uni.downloadFile({
         //   url: url,
@@ -345,7 +356,13 @@
       },
       onItemRightClick(event, itemData) {
         const selection = window.getSelection();
-        if (selection.toString()) {
+        if (event.target.nodeName == 'IMG') { // 如果右键图片
+          selection.removeAllRanges()
+          const range = document.createRange()
+          range.selectNode(event.target);
+          selection.addRange(range)
+          this.hasSelectContent = true
+        } else if (selection.toString()) { // 非图片复制
           this.hasSelectContent = true
         } else {
           this.hasSelectContent = false
@@ -426,7 +443,7 @@
     .file-block {
       background-color: var(--p-primary-secondary-color);
       padding: 15px;
-      width: 50%;
+      max-width: 50%;
       border-radius: 8px;
 
       .file-name {
