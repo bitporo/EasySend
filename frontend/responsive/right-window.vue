@@ -33,7 +33,7 @@
         <AccordionPanel value="1">
           <AccordionHeader>使用方法</AccordionHeader>
           <AccordionContent class="intro-content">
-            <view>只需在一台主机上启动软件，其余客户端使用浏览器访问“共享访问地址”即可</view>
+            <view>只需在一台主机上启动软件，其余客户端使用浏览器访问“共享访问地址”即可，支持图片预览，右键复制、删除消息图片</view>
           </AccordionContent>
         </AccordionPanel>
         <AccordionPanel value="2">
