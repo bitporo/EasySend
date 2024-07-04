@@ -16,7 +16,7 @@
 1.  安装：npm i
 2.  预览：npm run start
 3.  开发情况下，前端为单独的uniapp项目，需要使用hbuilderx打开启动，路径为frontend，发行为h5后在项目根目录执行`npm run rd`将打包文件放到electron-egg下
-4.  linux-arm下，打包有点小问题，需要使用本机安装的fpm，后面更新教程
+4.  linux-arm下，打包有点小问题，需要使用本机安装的fpm，请看官网文档教程
 
 #### 使用场景
 
@@ -26,7 +26,7 @@
 
 #### 注意事项
 
-1.  需将node_modules\ee-core\ee\eeApp.js 第297行`host: mainServer.host`改为`host: mainServer.open ? undefined : mainServer.host`，才能默认开放所有人访问（已提交electron-egg合并请求，若合并以后就不需要改了）
+1.  需将node_modules\ee-core\ee\eeApp.js 第297行`host: mainServer.host`改为`host: mainServer.open ? undefined : mainServer.host`或注释掉，才能默认开放所有人访问（已提交electron-egg合并请求，若合并以后就不需要改了）
 
 
 #### 特技

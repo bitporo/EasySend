@@ -3,7 +3,7 @@
     <div ref="scrollView" class="scroll-view">
       <div class="item-container" v-for="(data, index) in messageList" :key="data.id">
         <div class="time">{{ data.dateTime }}</div>
-        <div class="item-content" @contextmenu="onItemRightClick($event, data)">
+        <div class="item-content" @contextmenu="onItemRightClick($event, data, index)">
           <view v-if="data.type == 'text'">
             <text class="content-text">
               {{ data.content }}
@@ -11,8 +11,8 @@
           </view>
           <div v-else-if="data.type == 'file'" class="file-container">
             <div class="file-block" v-if="data.fileData.mimetype.includes('image')">
-              <Image :src="getUrl(data)" ref="image" alt="图片加载失败" width="250" />
-              <div>
+              <Image :src="getUrl(data)" :ref="`imgRef${index}`" alt="图片加载失败" width="100%" preview />
+              <div style="margin-top: 5px;">
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
             </div>
@@ -140,6 +140,11 @@
       this.initSSE()
     },
     methods: {
+      handleImageClick(index, item) {
+        item.preview = true
+        this.$refs[`imgRef${index}`][0]
+        // console.log(this.$refs[`imgRef${index}`][0].children)
+      },
       ipShow(ip) {
         if (ip == '127.0.0.1') {
           return '主机'
@@ -354,12 +359,13 @@
         a.href = url
         a.click()
       },
-      onItemRightClick(event, itemData) {
+      onItemRightClick(event, itemData, index) {
+        console.log(event)
         const selection = window.getSelection();
-        if (event.target.nodeName == 'IMG') { // 如果右键图片
+        if (event.target.ariaLabel == 'Zoom Image') { // 如果右键图片
           selection.removeAllRanges()
           const range = document.createRange()
-          range.selectNode(event.target);
+          range.selectNode(this.$refs[`imgRef${index}`][0].rootEl.children[0]);
           selection.addRange(range)
           this.hasSelectContent = true
         } else if (selection.toString()) { // 非图片复制
