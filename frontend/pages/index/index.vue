@@ -5,13 +5,13 @@
         <div class="time">{{ data.dateTime }}</div>
         <div class="item-content" @contextmenu="onItemRightClick($event, data, index)">
           <view v-if="data.type == 'text'">
-            <text class="content-text">
+            <text :ref="`textRef${index}`" class="content-text">
               {{ data.content }}
             </text>
           </view>
           <div v-else-if="data.type == 'file'" class="file-container">
             <div class="file-block" v-if="data.fileData.mimetype.includes('image')">
-              <Image :src="getUrl(data)" :ref="`imgRef${index}`" alt="图片加载失败" width="100%" preview />
+              <Image :src="getUrl(data)" alt="图片加载失败" width="100%" preview />
               <div style="margin-top: 5px;">
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
@@ -37,7 +37,7 @@
     </div>
     <div class="input-module">
       <Textarea v-model="contentValue" placeholder="请输入内容, Ctrl+Enter可快捷发送" rows="4" style="flex: 1;"
-        @keyup.ctrl.enter="handleSend()" />
+        @keyup.ctrl.enter="handleSend()" @keyup.ctrl.v="handleCopy" />
       <div style="display: flex;flex-direction: column;gap: 10px;">
         <Button icon="pi pi-file-arrow-up" aria-label="传文件" severity="secondary" @click="handleFileChoose" />
         <Button icon="pi pi-send" aria-label="传文本" :loading="loading" @click="handleSend()" />
@@ -91,8 +91,18 @@
         hasSelectContent: false, // 是否有选中文本
         contextMenu: [{
           visible: () => {
-            return !this.hasSelectContent
+            return this.hasSelectContent
           },
+          label: '复制',
+          icon: 'pi pi-copy',
+          command: () => {
+            document.execCommand('copy')
+            uni.showToast({
+              icon: 'success',
+              title: '已复制',
+            })
+          }
+        }, {
           disabled: () => {
             if (!window.process?.versions?.electron) { // 如果不在客户端(electron)内
               return this.onRightClickItem?.ip != getApp().globalData.myIp // 则只有自己发布的才能删除
@@ -115,19 +125,6 @@
               }
             })
           }
-        }, {
-          visible: () => {
-            return this.hasSelectContent
-          },
-          label: '复制',
-          icon: 'pi pi-copy',
-          command: () => {
-            document.execCommand('copy')
-            uni.showToast({
-              icon: 'success',
-              title: '已复制',
-            })
-          }
         }]
       }
     },
@@ -140,10 +137,8 @@
       this.initSSE()
     },
     methods: {
-      handleImageClick(index, item) {
-        item.preview = true
-        this.$refs[`imgRef${index}`][0]
-        // console.log(this.$refs[`imgRef${index}`][0].children)
+      handleCopy(e) {
+        console.log(e);
       },
       ipShow(ip) {
         if (ip == '127.0.0.1') {
@@ -360,15 +355,14 @@
         a.click()
       },
       onItemRightClick(event, itemData, index) {
-        console.log(event)
         const selection = window.getSelection();
-        if (event.target.ariaLabel == 'Zoom Image') { // 如果右键图片
+        if (itemData.type == 'text') { // 如果是文本消息，则自动选中所有文本
           selection.removeAllRanges()
           const range = document.createRange()
-          range.selectNode(this.$refs[`imgRef${index}`][0].rootEl.children[0]);
+          range.selectNode(this.$refs[`textRef${index}`][0].$el);
           selection.addRange(range)
           this.hasSelectContent = true
-        } else if (selection.toString()) { // 非图片复制
+        } else if (selection.toString()) { // 如果是其他消息，但有文本选中
           this.hasSelectContent = true
         } else {
           this.hasSelectContent = false

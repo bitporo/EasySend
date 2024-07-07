@@ -1,5 +1,5 @@
 const { Application } = require('ee-core');
-const { app, Menu, session } = require('electron')
+const { app, Menu, MenuItem, session } = require('electron')
 const http = require('http');
 
 class Index extends Application {
@@ -83,6 +83,16 @@ class Index extends Application {
         win.focus();
       })
     }
+    // 在右键点击时显示上下文菜单
+    win.webContents.on('context-menu', (event, params) => {
+      const menu = new Menu();
+      menu.append(new MenuItem({
+        label: '复制',
+        role: 'copy'
+      }));
+      menu.popup(win);
+    });
+
     // do some things
     session.defaultSession.on('will-download', (downloadevent, item, webContents) => {
       item.on('updated', (event, state) => {

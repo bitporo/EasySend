@@ -33,7 +33,7 @@
         <AccordionPanel value="1">
           <AccordionHeader>使用方法</AccordionHeader>
           <AccordionContent class="intro-content">
-            <view>只需在一台主机上启动软件，其余客户端使用浏览器访问“共享访问地址”即可，支持图片预览，右键复制、删除消息图片</view>
+            <view>只需在一台主机上启动软件，其余客户端使用浏览器访问“共享访问地址”即可，支持拖拽发送文件，支持点击图片预览，右键全选复制文本、删除消息，若需要复制图片请在浏览器端，点击图片后右键复制</view>
           </AccordionContent>
         </AccordionPanel>
         <AccordionPanel value="2">
@@ -65,90 +65,90 @@
 </template>
 
 <script>
-import Card from 'primevue/card';
-import Accordion from 'primevue/accordion';
-import AccordionPanel from 'primevue/accordionpanel';
-import AccordionHeader from 'primevue/accordionheader';
-import AccordionContent from 'primevue/accordioncontent';
-export default {
-  components: {
-    Card,
-    Accordion,
-    AccordionPanel,
-    AccordionHeader,
-    AccordionContent
-  },
-  data() {
-    return {
-      urlList: []
-    }
-  },
-  mounted() {
-    this.getHost()
-    this.getMyHost()
-  },
-  methods: {
-    getHost() {
-      uni.request({
-        url: `http://${window.location.hostname}:7071/api` + '/system/getHostIp',
-        method: 'GET'
-      }).then(res => {
-        const ipList = res.data.filter(item => {
-          const arr = item.split('.')
-          // 判断ip最后一位是否为1
-          return !(/^1$/.test(arr[arr.length - 1]))
+  import Card from 'primevue/card';
+  import Accordion from 'primevue/accordion';
+  import AccordionPanel from 'primevue/accordionpanel';
+  import AccordionHeader from 'primevue/accordionheader';
+  import AccordionContent from 'primevue/accordioncontent';
+  export default {
+    components: {
+      Card,
+      Accordion,
+      AccordionPanel,
+      AccordionHeader,
+      AccordionContent
+    },
+    data() {
+      return {
+        urlList: []
+      }
+    },
+    mounted() {
+      this.getHost()
+      this.getMyHost()
+    },
+    methods: {
+      getHost() {
+        uni.request({
+          url: `http://${window.location.hostname}:7071/api` + '/system/getHostIp',
+          method: 'GET'
+        }).then(res => {
+          const ipList = res.data.filter(item => {
+            const arr = item.split('.')
+            // 判断ip最后一位是否为1
+            return !(/^1$/.test(arr[arr.length - 1]))
+          })
+          this.urlList = ipList.map(ip => `http://${ip}:7072`)
         })
-        this.urlList = ipList.map(ip => `http://${ip}:7072`)
-      })
-    },
-    getMyHost() {
-      uni.request({
-        url: `http://${window.location.hostname}:7071/api` + '/system/getMyIp',
-        method: 'GET'
-      }).then(res => {
-        getApp().globalData.myIp = res.data.ip
-      })
-    },
-    onCopy(index) {
-      window.getSelection().selectAllChildren(this.$refs.urlLink[index].$el)
-      document.execCommand('copy')
-      uni.showToast({
-        icon: 'none',
-        title: '已复制'
-      })
-    },
-    onQrcode(url) {
-      window.open(url)
+      },
+      getMyHost() {
+        uni.request({
+          url: `http://${window.location.hostname}:7071/api` + '/system/getMyIp',
+          method: 'GET'
+        }).then(res => {
+          getApp().globalData.myIp = res.data.ip
+        })
+      },
+      onCopy(index) {
+        window.getSelection().selectAllChildren(this.$refs.urlLink[index].$el)
+        document.execCommand('copy')
+        uni.showToast({
+          icon: 'none',
+          title: '已复制'
+        })
+      },
+      onQrcode(url) {
+        window.open(url)
+      }
     }
   }
-}
 </script>
 
 <style scoped>
-.right-content {
-  font-size: 14px;
-  padding: 20px;
-  display: flex;
-  box-sizing: border-box;
-  height: 100vh;
-  flex-direction: column;
-  justify-content: space-between;
-}
+  .right-content {
+    font-size: 14px;
+    padding: 20px;
+    display: flex;
+    box-sizing: border-box;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 
-.intro-title {
-  /* padding: 10px 0; */
-  margin-bottom: 10px;
-  font-weight: bold;
-}
+  .intro-title {
+    /* padding: 10px 0; */
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
 
-.intro-content {
-  background-color: var(--p-highlight-color);
-  /*    padding: 15px;
+  .intro-content {
+    background-color: var(--p-highlight-color);
+    /*    padding: 15px;
     color: #666666; */
-}
+  }
 
-.icon-button {
-  cursor: pointer;
-  margin-left: 10px;
-}
+  .icon-button {
+    cursor: pointer;
+    margin-left: 10px;
+  }
 </style>
