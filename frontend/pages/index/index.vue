@@ -187,7 +187,7 @@
         const files = Array.from(e.dataTransfer.files);
         // 暂时只传第一个文件，以后可以完善多文件
         this.uploadTask = uni.uploadFile({
-          url: this.baseUrl + '/message/uploadFile', //仅为示例，非真实的接口地址
+          url: this.baseUrl + '/message/uploadFile',
           file: files[0],
           success: (uploadFileRes) => {
             const resObj = JSON.parse(uploadFileRes.data)
@@ -231,7 +231,7 @@
           const that = this
           this.$refs.popup.open()
           this.uploadTask = uni.uploadFile({
-            url: this.baseUrl + '/message/uploadFile', //仅为示例，非真实的接口地址
+            url: this.baseUrl + '/message/uploadFile',
             filePath: res.tempFilePaths[0],
             name: 'file',
             success: (uploadFileRes) => {
