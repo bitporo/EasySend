@@ -49,3 +49,7 @@
 <p align="center">
   <img src="frontend/static/wxalipay.jpg" width="600" alt="示例图片">
 </p>
+
+#### 赞助鸣谢（排名不分先后）
+赞助时可备注自己的昵称，不然只能看到部分，方便这里鸣谢展示  
+ *强 **松 *  

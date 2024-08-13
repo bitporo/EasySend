@@ -189,6 +189,7 @@
         this.uploadTask = uni.uploadFile({
           url: this.baseUrl + '/message/uploadFile',
           file: files[0],
+          timeout: 1000*4000,
           success: (uploadFileRes) => {
             const resObj = JSON.parse(uploadFileRes.data)
             this.handleSend(resObj.data)
@@ -234,6 +235,7 @@
             url: this.baseUrl + '/message/uploadFile',
             filePath: res.tempFilePaths[0],
             name: 'file',
+            timeout: 1000*4000,
             success: (uploadFileRes) => {
               const resObj = JSON.parse(uploadFileRes.data)
               that.handleSend(resObj.data)
