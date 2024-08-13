@@ -1,6 +1,6 @@
 {
   "name": "easy-send",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "便捷的局域网共享文本文件小工具，简捷使用，传送方便，仅需一台设备启动，其余设备使用浏览器访问即可使用",
   "main": "main.js",
   "scripts": {
