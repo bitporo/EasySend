@@ -7,7 +7,7 @@
 若局域网版简传不满足需求，可试试公网unicloud版简传：https://ext.dcloud.net.cn/plugin?id=19441
 
 #### 软件架构
-采用electron-egg + uniapp 实现  
+采用electron-egg + uniapp + primevue ui实现  
 官网下载：https://easysend.channer.cn
 <p align="center">
   <img src="frontend/static/easysend.png" width="800" alt="示例图片">

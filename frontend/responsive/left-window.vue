@@ -12,11 +12,12 @@
       <view style="font-size: 12px;color: #686868;">
         <view style="display: flex;gap: 10px;">
           <!-- <Button icon="pi pi-palette" text raised rounded aria-label="Theme" @click="changePrimaryColor"/> -->
-          <!-- <Button icon="pi pi-sun" text raised rounded aria-label="Toggle" @click="toggleColorScheme()"/> -->
-          <Button icon="pi pi-language" text raised rounded aria-label="Language" />
+          <Button :icon="`pi ${checkStatus?'pi-sun': 'pi-moon'}`" text raised rounded aria-label="Toggle"
+            @click="toggleDarkMode" />
+          <!-- <Button icon="pi pi-language" text raised rounded aria-label="Language" /> -->
         </view>
         <view style="margin-top: 10px;">
-          <uni-link href="https://easysend.channer.cn/">版本 1.2.2（持续更新中）</uni-link>
+          <uni-link href="https://easysend.channer.cn/">版本 1.3.0（持续更新中）</uni-link>
         </view>
         <view style="margin-top: 10px;">
           Copyright © 2024 EasySend. All Rights Reserved.
@@ -29,6 +30,29 @@
 <script setup>
   import Button from "primevue/button"
   import Logo from './icons/Logo.vue'
+  import {
+    ref
+  } from "vue";
+
+  const checkStatus = ref(false)
+  // 获取系统主题模式
+  const matches = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+  if (matches) {
+    openDarkMode()
+  }
+
+  function openDarkMode() {
+    const element = document.querySelector('html');
+    element.classList.add('app-dark');
+    checkStatus.value = true
+  }
+
+  function toggleDarkMode() {
+    const element = document.querySelector('html');
+    element.classList.toggle("app-dark");
+    checkStatus.value = !checkStatus.value
+  }
 </script>
 
 <style scoped>

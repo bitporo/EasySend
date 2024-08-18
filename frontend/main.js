@@ -27,7 +27,7 @@ export function createApp() {
     theme: {
       preset: Noir,
       options: {
-        // darkModeSelector: '.app-dark',
+        darkModeSelector: '.app-dark',
       }
     }
   });
