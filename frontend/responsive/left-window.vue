@@ -20,7 +20,7 @@
           <uni-link href="https://easysend.channer.cn/">版本 1.3.0（持续更新中）</uni-link>
         </view>
         <view style="margin-top: 10px;">
-          Copyright © 2024 EasySend. All Rights Reserved.
+          Copyright © 2024 BitPoro. All Rights Reserved.
         </view>
       </view>
     </view>

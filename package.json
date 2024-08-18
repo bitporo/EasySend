@@ -44,7 +44,7 @@
     "Share Message",
     "Share Text"
   ],
-  "author": "bitporo <bitporo@qq.com>",
+  "author": "BitPoro <bitporo@qq.com>",
   "license": "GPL-2.0-only",
   "devDependencies": {
     "@electron/rebuild": "^3.2.13",
