@@ -4,8 +4,9 @@
 ✨一款不需要在接收端安装就可在局域网环境内共享文本及文件的小软件，仅需一台主机电脑启动，需要获取共享的电脑或手机无需安装只需使用浏览器访问即可，欢迎体验  
 支持windows、linux、mac，支持国产操作系统多平台
 
-若局域网版简传不满足需求，可试试公网unicloud版简传：https://ext.dcloud.net.cn/plugin?id=19441
+若局域网版简传不满足需求，可试试公网unicloud版简传：https://ext.dcloud.net.cn/plugin?id=19441  
 
+node环境及docker运行版已上线，可访问官网查看
 #### 软件架构
 采用electron-egg + uniapp + primevue ui实现  
 官网下载：https://easysend.channer.cn
@@ -52,4 +53,4 @@
 
 #### 赞助鸣谢（排名不分先后）
 赞助时可备注自己的昵称，不然只能看到部分，方便这里鸣谢展示  
- *强 **松 *  
+*鑫 *强 **松 *  

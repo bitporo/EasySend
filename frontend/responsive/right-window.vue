@@ -63,7 +63,7 @@
           <AccordionHeader>赞助鸣谢</AccordionHeader>
           <AccordionContent class="intro-content">
             <view>
-              *强 **松 *（排名不分先后）
+              *鑫 *强 **松 *（排名不分先后）
             </view>
             <view style="font-size: 12px;color: #888888;margin-top: 10px;">
               赞助时可备注昵称，方便这里展示
