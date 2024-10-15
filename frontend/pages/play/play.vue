@@ -1,6 +1,7 @@
 <template>
   <view style="display: flex;flex-direction: column;height: 100vh;justify-content: center;">
-    <video :src="playUrl" style="width: 100%;height: 50%;"></video>
+    <view v-if="waiting" style="padding: 20px 0;text-align: center;">正在加载视频请稍等...</view>
+    <video v-if="playUrl" :src="playUrl" style="width: 100%;height: 50%;" @waiting="playWait" @loadedmetadata="playWait"></video>
   </view>
 </template>
 
@@ -8,14 +9,18 @@
   export default {
     data() {
       return {
-        playUrl: ''
+        playUrl: '',
+        waiting: true
       }
     },
     onLoad(option) {
-      const eventChannel = this.getOpenerEventChannel();
-      eventChannel.on('playUrl', (data) => {
-        this.playUrl = data.url
-      })
+      this.playUrl = option.url
+    },
+    methods: {
+      playWait(event){
+        this.waiting = false
+        console.log(event.detail )
+      }
     }
   }
 </script>

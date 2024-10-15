@@ -142,14 +142,15 @@
     methods: {
       playVideo(itemData) {
         const url = this.getUrl(itemData)
-        uni.navigateTo({
-          url: '/pages/play/play',
-          success(res) {
-            res.eventChannel.emit('playUrl', {
-              url
-            })
-          }
-        })
+        window.open(`/#/pages/play/play?url=${url}`)
+        // uni.navigateTo({
+        //   url: '/pages/play/play',
+        //   success(res) {
+        //     res.eventChannel.emit('playUrl', {
+        //       url
+        //     })
+        //   }
+        // })
       },
       handleCopy(e) {
         console.log(e);
