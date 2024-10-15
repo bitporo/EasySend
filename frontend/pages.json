@@ -9,6 +9,13 @@
       {
         "navigationBarTitleText" : "二维码展示"
       }
+    },
+    {
+      "path" : "pages/play/play",
+      "style" : 
+      {
+        "navigationBarTitleText" : "播放视频"
+      }
     }
   ],
   "leftWindow": {

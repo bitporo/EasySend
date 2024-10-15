@@ -18,13 +18,16 @@
             </div>
             <div class="file-block" v-else>
               <div class="file-name">
-                <i class="pi pi-file"></i>
+                <i class="pi pi-video" v-if="data.fileData.mimetype.includes('video')"></i>
+                <i class="pi pi-file" v-else></i>
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
               <div v-if="data.downLoadProcess" style="margin-top: 10px;">
                 <progress :percent="data.downLoadProcess" stroke-width="3" activeColor="var(--p-primary-color)" />
               </div>
             </div>
+            <Button v-if="data.fileData.mimetype.includes('video')" rounded icon="pi pi-play-circle" aria-label="播放"
+              severity="secondary" @click="playVideo(data)" />
             <text style="color: var(--p-primary-contrast-color)">{{ computeSize(data.fileData.size) }}</text>
             <div>
               <Button icon="pi pi-download" aria-label="下载" severity="secondary" @click="handleDownLoadFile(data)" />
@@ -137,6 +140,17 @@
       this.initSSE()
     },
     methods: {
+      playVideo(itemData) {
+        const url = this.getUrl(itemData)
+        uni.navigateTo({
+          url: '/pages/play/play',
+          success(res) {
+            res.eventChannel.emit('playUrl', {
+              url
+            })
+          }
+        })
+      },
       handleCopy(e) {
         console.log(e);
       },
@@ -189,7 +203,7 @@
         this.uploadTask = uni.uploadFile({
           url: this.baseUrl + '/message/uploadFile',
           file: files[0],
-          timeout: 1000*4000,
+          timeout: 1000 * 4000,
           success: (uploadFileRes) => {
             const resObj = JSON.parse(uploadFileRes.data)
             this.handleSend(resObj.data)
@@ -235,7 +249,7 @@
             url: this.baseUrl + '/message/uploadFile',
             filePath: res.tempFilePaths[0],
             name: 'file',
-            timeout: 1000*4000,
+            timeout: 1000 * 4000,
             success: (uploadFileRes) => {
               const resObj = JSON.parse(uploadFileRes.data)
               that.handleSend(resObj.data)
