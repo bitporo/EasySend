@@ -149,6 +149,8 @@
           return 'pi-file-excel'
         } else if (mimetype.includes('pdf')) {
           return 'pi-file-pdf'
+        } else if (mimetype.includes('video')) {
+          return 'pi-video'
         } else {
           return 'pi-file'
         }
