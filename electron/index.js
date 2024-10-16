@@ -1,7 +1,7 @@
 const { Application } = require('ee-core');
 const { app, Menu, MenuItem, session } = require('electron')
 const http = require('http');
-
+const Ps = require('ee-core/ps');
 class Index extends Application {
 
   constructor() {
@@ -17,10 +17,11 @@ class Index extends Application {
         ]
       },
     ]
-    // 设置顶部菜单
+    // 设置顶部菜单，当前设置为关闭话状态
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
     const clients = new Map(); // 用来存储所有连接的客户端
+    // 创建sse服务，用于web端同步消息
     const server = http.createServer((req, res) => {
       if (req.url === '/sse') {
         res.writeHead(200, {
@@ -87,13 +88,13 @@ class Index extends Application {
     win.webContents.on('context-menu', (event, params) => {
       const menu = new Menu();
       menu.append(new MenuItem({
-        label: '复制',
-        role: 'copy'
+        label: '刷新',
+        role: 'reload'
       }));
       menu.popup(win);
     });
 
-    // do some things
+    // 在客户端内下载
     session.defaultSession.on('will-download', (downloadevent, item, webContents) => {
       item.on('updated', (event, state) => {
         if (state === 'interrupted') {

@@ -17,6 +17,10 @@
     "from": "build/extraResources/",
     "to": "extraResources"
   },
+  "extraFiles": {
+    "from": "uplodFiles",
+    "to": "uplodFiles"
+  },
   "nsis": {
     "oneClick": false,
     "allowElevation": true,

@@ -84,7 +84,7 @@ module.exports = (appInfo) => {
       formidable: {
         keepExtensions: true,
         maxFileSize: 500 * 1024 * 1024 * 1024, // 500G上限
-        // uploadDir : Ps.getHomeDir() + '/temp' // 预留上传文件路径配置
+        uploadDir : Ps.getExecDir() + '/uplodFiles' // 预留上传文件路径配置
       }
     },
     filterRequest: {

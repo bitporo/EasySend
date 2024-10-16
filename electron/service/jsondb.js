@@ -7,6 +7,7 @@ const Storage = require('ee-core/storage');
 const _ = require('lodash');
 const path = require('path');
 const crypto = require('crypto');
+const Ps = require('ee-core/ps');
 /**
  * json数据存储
  * @class
@@ -64,7 +65,7 @@ class JsondbService extends Service {
         .remove({ id: obj.id })
         .write();
       if (obj.type == 'file') {
-        fs.unlink(obj.fileData.filepath, (err) => {
+        fs.unlink(Ps.getExecDir() + '/uplodFiles/' + obj.fileData.newFilename, (err) => {
           if (err) {
             console.error(`删除文件失败: ${err}`);
           }
