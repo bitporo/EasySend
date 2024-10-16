@@ -18,8 +18,7 @@
             </div>
             <div class="file-block" v-else>
               <div class="file-name">
-                <i class="pi pi-video" v-if="data.fileData.mimetype.includes('video')"></i>
-                <i class="pi pi-file" v-else></i>
+                <i class="pi" :class="[getFileIconType(data.fileData.mimetype)]"></i>
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
               <div v-if="data.downLoadProcess" style="margin-top: 10px;">
@@ -107,7 +106,8 @@
           }
         }, {
           disabled: () => {
-            if (!window.process?.versions?.electron) { // 如果不在客户端(electron)内
+            if (getApp().globalData.myIp != '127.0.0.1' && getApp().globalData.myIp != window.location
+              .hostname) { // 如果不是在主机访问
               return this.onRightClickItem?.ip != getApp().globalData.myIp // 则只有自己发布的才能删除
             } else {
               return false
@@ -140,6 +140,19 @@
       this.initSSE()
     },
     methods: {
+      getFileIconType(mimetype) {
+        if (mimetype.includes('msword') || mimetype.includes('wordprocessing')) {
+          return 'pi-file-word'
+        } else if (mimetype.includes('powerpoint') || mimetype.includes('presentation')) {
+          return 'pi-file'
+        } else if (mimetype.includes('excel') || mimetype.includes('sheet')) {
+          return 'pi-file-excel'
+        } else if (mimetype.includes('pdf')) {
+          return 'pi-file-pdf'
+        } else {
+          return 'pi-file'
+        }
+      },
       playVideo(itemData) {
         const url = this.getUrl(itemData)
         window.open(`/#/pages/play/play?url=${url}`)
@@ -156,7 +169,7 @@
         console.log(e);
       },
       ipShow(ip) {
-        if (ip == '127.0.0.1') {
+        if (ip == '127.0.0.1' || getApp().globalData.ipList.includes(ip)) {
           return '主机'
         } else if (ip == getApp().globalData.myIp) {
           return '本机'

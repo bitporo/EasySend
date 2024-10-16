@@ -109,6 +109,7 @@
             // 判断ip最后一位是否为1
             return !(/^1$/.test(arr[arr.length - 1]))
           })
+          getApp().globalData.ipList = ipList
           this.urlList = ipList.map(ip => `http://${ip}:7072`)
         })
       },

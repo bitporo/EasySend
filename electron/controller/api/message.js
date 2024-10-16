@@ -35,8 +35,12 @@ class MessageController extends Controller {
     return result;
   }
 
+  // 删除消息，预留批量删除
   async deleteMessages(args) {
-    if (this.app.request.ip == '127.0.0.1' || args.data[0].ip == this.app.request.ip) {
+    // 获取主机ip
+    const ips = await Services.get('system').getIps();
+    // 本机ip或者属于主机ip的可删除
+    if (args.data[0].ip == this.app.request.ip || this.app.request.ip == '127.0.0.1' || ips.includes(this.app.request.ip)) {
       return await Services.get('jsondb').deleteMessages(args.data);
     } else {
       return {

@@ -1,7 +1,8 @@
 <script>
   export default {
     globalData: {
-      myIp: ''
+      myIp: '',
+      ipList: []
     },
     onLaunch: function() {},
     onShow: function() {
