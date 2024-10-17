@@ -3,6 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const Log = require('ee-core/log');
 const Ps = require('ee-core/ps');
+const fileHomeDir = os.type() == 'Windows_NT' ? Ps.getExecDir() + '/uplodFiles' : os.tmpdir()
 class UploadFileService extends Service {
   constructor(ctx) {
     super(ctx);
@@ -25,7 +26,7 @@ class UploadFileService extends Service {
 
   async getFile(query) {
     // 通过fs.createReadStream创建一个可读流来读取文件
-    return fs.createReadStream(Ps.getExecDir() + '/uplodFiles/' + query.fileName);
+    return fs.createReadStream(fileHomeDir + '/' + query.fileName);
   }
 }
 

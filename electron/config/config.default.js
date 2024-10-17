@@ -2,7 +2,12 @@
 
 const path = require('path');
 const Ps = require('ee-core/ps');
-
+const os = require('os');
+const fileHomeDir = os.type() == 'Windows_NT' ? Ps.getExecDir() + '/uplodFiles' : os.tmpdir()
+// console.log(os.hostname())
+// console.log(os.platform())
+// console.log(os.release())
+// console.log(os.type())
 // console.log(Ps.getHomeDir())
 
 /**
@@ -84,7 +89,7 @@ module.exports = (appInfo) => {
       formidable: {
         keepExtensions: true,
         maxFileSize: 500 * 1024 * 1024 * 1024, // 500G上限
-        uploadDir : Ps.getExecDir() + '/uplodFiles' // 预留上传文件路径配置
+        uploadDir: fileHomeDir // 预留上传文件路径配置
       }
     },
     filterRequest: {
