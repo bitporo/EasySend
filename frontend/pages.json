@@ -16,6 +16,13 @@
       {
         "navigationBarTitleText" : "播放视频"
       }
+    },
+    {
+      "path" : "pages/admin/admin",
+      "style" : 
+      {
+        "navigationBarTitleText" : "管理"
+      }
     }
   ],
   "leftWindow": {

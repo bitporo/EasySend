@@ -64,6 +64,12 @@
   import {
     ipc
   } from '@/utils/ipcRenderer';
+  import {
+    mapState
+  } from 'pinia'
+  import {
+    useSystemStore
+  } from '@/store/system.js'
   import IconFile from './IconFile.vue'
   import Button from "primevue/button"
   import Textarea from 'primevue/textarea';
@@ -87,7 +93,7 @@
         uploadProcess: 0,
         onDownLoadItemId: '',
         onRightClickItem: '',
-        baseUrl: `http://${window.location.hostname}:7071/api`,
+        // baseUrl: `http://${window.location.hostname}:7071/api`,
         uploadTask: null,
         hasEnter: false,
         hasSelectContent: false, // 是否有选中文本
@@ -106,9 +112,9 @@
           }
         }, {
           disabled: () => {
-            if (getApp().globalData.myIp != '127.0.0.1' && getApp().globalData.myIp != window.location
+            if (this.myIp != '127.0.0.1' && this.myIp != window.location
               .hostname) { // 如果不是在主机访问
-              return this.onRightClickItem?.ip != getApp().globalData.myIp // 则只有自己发布的才能删除
+              return this.onRightClickItem?.ip != this.myIp // 则只有自己发布的才能删除
             } else {
               return false
             }
@@ -131,8 +137,8 @@
         }]
       }
     },
-    onLoad() {
-
+    computed: {
+      ...mapState(useSystemStore, ['myIp', 'baseUrl'])
     },
     mounted() {
       this.scrollElement = this.$refs.scrollView
@@ -173,7 +179,7 @@
       ipShow(ip) {
         if (ip == '127.0.0.1' || getApp().globalData.ipList.includes(ip)) {
           return '主机'
-        } else if (ip == getApp().globalData.myIp) {
+        } else if (ip == this.myIp) {
           return '本机'
         } else {
           return ip

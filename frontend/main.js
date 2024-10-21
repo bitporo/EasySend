@@ -17,6 +17,7 @@ import {
 } from 'vue'
 import PrimeVue from 'primevue/config';
 import 'primeicons/primeicons.css'
+import * as Pinia from 'pinia';
 import {
   Noir
 } from './thems.js'
@@ -31,8 +32,10 @@ export function createApp() {
       }
     }
   });
+  app.use(Pinia.createPinia());
   return {
-    app
+    app,
+    Pinia
   }
 }
 // #endif

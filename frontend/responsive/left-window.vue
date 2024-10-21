@@ -15,6 +15,7 @@
           <Button :icon="`pi ${checkStatus?'pi-sun': 'pi-moon'}`" text raised rounded aria-label="Toggle"
             @click="toggleDarkMode" />
           <!-- <Button icon="pi pi-language" text raised rounded aria-label="Language" /> -->
+          <Button v-if="isAdmin" icon="pi pi-cog" text raised rounded aria-label="Set" @click="goAdmin" />
         </view>
         <view style="margin-top: 10px;">
           <uni-link href="https://easysend.channer.cn/">版本 1.4.0（持续更新中）</uni-link>
@@ -31,9 +32,15 @@
   import Button from "primevue/button"
   import Logo from './icons/Logo.vue'
   import {
-    ref
+    ref,
+    computed
   } from "vue";
-
+  import {
+    useSystemStore
+  } from '@/store/system.js'
+  const systemStore = useSystemStore()
+  const isAdmin = computed(() => systemStore.myIp == '127.0.0.1' || systemStore.myIp == window.location
+    .hostname)
   const checkStatus = ref(false)
   // 获取系统主题模式
   const matches = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -52,6 +59,12 @@
     const element = document.querySelector('html');
     element.classList.toggle("app-dark");
     checkStatus.value = !checkStatus.value
+  }
+
+  function goAdmin() {
+    uni.navigateTo({
+      url: '/pages/admin/admin'
+    })
   }
 </script>
 

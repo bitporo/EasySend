@@ -3,7 +3,8 @@
 const { Controller } = require('ee-core');
 const Log = require('ee-core/log');
 const Services = require('ee-core/services');
-
+const os = require('os');
+const Ps = require('ee-core/ps');
 class SystemController extends Controller {
   constructor(ctx) {
     super(ctx);
@@ -17,6 +18,18 @@ class SystemController extends Controller {
   async getMyIp() {
     return {
       ip: this.app.request.ip
+    };
+  }
+  async getUploadPath() {
+    return {
+      old: os.tmpdir(),
+      now: Ps.getExecDir() + '/uplodFiles',
+    };
+  }
+
+  async getPlatform() {
+    return {
+      platform: os.type()
     };
   }
 }

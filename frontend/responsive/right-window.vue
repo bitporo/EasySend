@@ -81,6 +81,13 @@
   import AccordionPanel from 'primevue/accordionpanel';
   import AccordionHeader from 'primevue/accordionheader';
   import AccordionContent from 'primevue/accordioncontent';
+  import {
+    useSystemStore
+  } from '@/store/system.js'
+  import {
+    mapState,
+    mapActions,
+  } from 'pinia'
   export default {
     components: {
       Card,
@@ -94,14 +101,18 @@
         urlList: []
       }
     },
+    computed: {
+      ...mapState(useSystemStore, ['myIp', 'baseUrl'])
+    },
     mounted() {
       this.getHost()
       this.getMyHost()
     },
     methods: {
+      ...mapActions(useSystemStore, ['setMyIp']),
       getHost() {
         uni.request({
-          url: `http://${window.location.hostname}:7071/api` + '/system/getHostIp',
+          url: this.baseUrl + '/system/getHostIp',
           method: 'GET'
         }).then(res => {
           const ipList = res.data.filter(item => {
@@ -115,10 +126,10 @@
       },
       getMyHost() {
         uni.request({
-          url: `http://${window.location.hostname}:7071/api` + '/system/getMyIp',
+          url: this.baseUrl + '/system/getMyIp',
           method: 'GET'
         }).then(res => {
-          getApp().globalData.myIp = res.data.ip
+          this.setMyIp(res.data.ip)
         })
       },
       onCopy(index) {
