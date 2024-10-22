@@ -29,6 +29,9 @@
   import {
     useSystemStore
   } from '@/store/system.js'
+  import {
+    ipc
+  } from '@/utils/ipcRenderer';
   export default {
     components: {
       Card,

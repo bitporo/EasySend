@@ -5,6 +5,9 @@ const Log = require('ee-core/log');
 const Services = require('ee-core/services');
 const os = require('os');
 const Ps = require('ee-core/ps');
+const {
+  shell
+} = require('electron');
 class SystemController extends Controller {
   constructor(ctx) {
     super(ctx);
@@ -15,22 +18,34 @@ class SystemController extends Controller {
     return result;
   }
 
-  async getMyIp() {
+  getMyIp() {
     return {
       ip: this.app.request.ip
     };
   }
-  async getUploadPath() {
+  getUploadPath() {
     return {
       old: os.tmpdir(),
       now: Ps.getExecDir() + '/uplodFiles',
     };
   }
 
-  async getPlatform() {
+  getPlatform() {
     return {
       platform: os.type()
     };
+  }
+
+  /**
+ * 打开目录
+ */
+  openDirectory(args) {
+    if (!args.path) {
+      return false;
+    }
+
+    shell.openPath(args.path);
+    return true;
   }
 }
 
