@@ -4,25 +4,19 @@
       "path": "pages/index/index"
     },
     {
-      "path" : "pages/qrcode/qrcode",
-      "style" : 
-      {
-        "navigationBarTitleText" : "二维码展示"
+      "path": "pages/qrcode/qrcode",
+      "style": {
+        "navigationBarTitleText": "二维码展示"
       }
     },
     {
-      "path" : "pages/play/play",
-      "style" : 
-      {
-        "navigationBarTitleText" : "播放视频"
+      "path": "pages/play/play",
+      "style": {
+        "navigationBarTitleText": "播放视频"
       }
     },
     {
-      "path" : "pages/admin/admin",
-      "style" : 
-      {
-        "navigationBarTitleText" : "管理"
-      }
+      "path": "pages/admin/admin"
     }
   ],
   "leftWindow": {

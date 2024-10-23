@@ -26,7 +26,7 @@ class SystemController extends Controller {
   getUploadPath() {
     return {
       old: os.tmpdir(),
-      now: Ps.getExecDir() + '/uplodFiles',
+      now: Ps.getExecDir() + '\\uplodFiles',
     };
   }
 
@@ -41,11 +41,15 @@ class SystemController extends Controller {
  */
   openDirectory(args) {
     if (!args.path) {
-      return false;
+      return {
+        status: 'no path'
+      };
     }
 
     shell.openPath(args.path);
-    return true;
+    return {
+      status: 'complete'
+    };
   }
 }
 

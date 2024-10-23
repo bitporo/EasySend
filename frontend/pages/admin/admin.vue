@@ -1,15 +1,22 @@
 <template>
+  <view style="display: flex;justify-content: space-between;align-items: center;padding: 10px;">
+    <view style="cursor: pointer;" @click="goBack"><uni-icons type="left" size="30"></uni-icons></view>
+    <view style="font-weight: bold;">管理设置</view>
+    <view></view>
+  </view>
   <view style="padding: 20px;">
     <view v-if="isAdmin">
-      <Fieldset legend="文件上传设置" :toggleable="true" v-if="isWindows">
+      <Fieldset legend="文件迁移" :toggleable="true" v-if="isWindows">
         <view style="display: flex;flex-direction: column;gap: 10px;">
           <view>
-            <text style="margin-right: 10px;">原上传路径：{{uploadPath.old}}</text><Button label="打开" size="small" />
+            <text style="margin-right: 10px;">原上传路径：{{uploadPath.old}}</text><Button v-if="uploadPath.old" label="打开"
+              size="small" @click="openDir(uploadPath.old)" />
           </view>
           <view>
-            <text style="margin-right: 10px;">现上传路径：{{uploadPath.now}}</text><Button label="打开" size="small" />
+            <text style="margin-right: 10px;">现上传路径：{{uploadPath.now}}</text><Button v-if="uploadPath.now" label="打开"
+              size="small" @click="openDir(uploadPath.now)" />
           </view>
-          <h6>注：打开文件夹将原上传路径“编码.格式”（如：eb5b89b68b22c1b943d787800.mp4）文件剪切到现上传路径中</h6>
+          <h6>注：打开文件夹后将【原上传路径】下“编码.格式”（如：eb5b89b68b22c1b943d787800.mp4）的文件剪切（可复制再删除）到【现上传路径】中</h6>
         </view>
       </Fieldset>
     </view>
@@ -55,6 +62,20 @@
       this.getPlatform()
     },
     methods: {
+      goBack() {
+        uni.navigateBack()
+      },
+      openDir(path) {
+        uni.request({
+          url: this.baseUrl + '/system/openDirectory',
+          method: 'POST',
+          data: {
+            path
+          }
+        }).then(res => {
+          console.log(res)
+        })
+      },
       getPlatform() {
         uni.request({
           url: this.baseUrl + '/system/getPlatform',
@@ -68,7 +89,6 @@
           url: this.baseUrl + '/system/getUploadPath',
           method: 'GET'
         }).then(res => {
-          console.log(res)
           this.uploadPath = res.data
         })
       }
