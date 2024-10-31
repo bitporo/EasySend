@@ -1,6 +1,6 @@
 {
   "name": "easy-send",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "description": "",
   "main": "main.js",
   "dependencies": {

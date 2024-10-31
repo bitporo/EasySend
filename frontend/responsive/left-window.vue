@@ -18,7 +18,7 @@
           <Button v-if="isAdmin" icon="pi pi-cog" text raised rounded aria-label="Set" @click="goAdmin" />
         </view>
         <view style="margin-top: 10px;">
-          <uni-link href="https://easysend.channer.cn/">版本 1.4.1（持续更新中）</uni-link>
+          <uni-link href="https://easysend.channer.cn/">版本 1.4.2（持续更新中）</uni-link>
         </view>
         <view style="margin-top: 10px;">
           Copyright © 2024 BitPoro. All Rights Reserved.
