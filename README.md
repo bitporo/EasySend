@@ -42,7 +42,7 @@
 <p>加作者微信进群或QQ群</p>
 <p align="center">
   <img src="frontend/static/wx.png" width="300" alt="示例图片">
-  <img src="frontend/static/qun.jpg" width="327" alt="示例图片">
+  <img src="frontend/static/qun.png" width="327" alt="示例图片">
 </p>
 
 #### 赞助
