@@ -25,7 +25,7 @@
               </text>
               <view style="background-color: #f5f5f5;padding: 10px;margin-top: 10px;">
                 <image src="../static/wx.png" style="width: 50%;" mode="aspectFit"></image>
-                <image src="../static/qun.jpg" style="width: 50%;" mode="aspectFit"></image>
+                <image src="../static/qun.png" style="width: 50%;" mode="aspectFit"></image>
               </view>
             </view>
           </AccordionContent>

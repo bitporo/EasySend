@@ -16,12 +16,12 @@
             <text style="margin-right: 10px;">现上传路径：{{uploadPath.now}}</text><Button v-if="uploadPath.now" label="打开"
               size="small" @click="openDir(uploadPath.now)" />
           </view>
-          <h6>注：打开文件夹后将【原上传路径】下“编码.格式”（如：eb5b89b68b22c1b943d787800.mp4）的文件剪切（可复制再删除）到【现上传路径】中</h6>
+          <h6>注：打开文件夹后将【原上传路径】下“编码.格式”（如：eb5b89b68b22c1b943d787800.mp4）的文件剪切（可复制再删除）到【现上传路径】中，旧版本升级到1.4.1及之后版本需要设置，新安装高版本用户可忽略该设置</h6>
         </view>
       </Fieldset>
     </view>
     <view v-else style="text-align: center;">
-      请在管理端访问当前页面
+      仅管理员端可访问当前页面
     </view>
   </view>
 </template>
