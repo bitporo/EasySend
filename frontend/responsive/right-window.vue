@@ -9,7 +9,7 @@
               <text ref="urlLink">{{ url }}</text>
             </uni-link>
             <i class="pi pi-clone icon-button" @click="onCopy(inedx)"></i>
-            <i class="pi pi-qrcode icon-button" @click="onQrcode(`${url}/#/pages/qrcode/qrcode?url=${url}`)"></i>
+            <i class="pi pi-qrcode icon-button" @click="onQrcode(`/#/pages/qrcode/qrcode?url=${url}`)"></i>
           </view>
         </view>
       </template>
