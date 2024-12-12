@@ -9,7 +9,9 @@
 
 #### 软件架构
 采用electron-egg + uniapp + primevue ui实现  
-官网下载：https://easysend.channer.cn
+官网下载：https://easysend.channer.cn  
+Pro版下载：https://easysendpro.starest.cn  
+
 <p align="center">
   <img src="frontend/static/easysend.png" width="800" alt="示例图片">
 </p>
