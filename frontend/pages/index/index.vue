@@ -38,8 +38,8 @@
       </div>
     </div>
     <div class="input-module">
-      <Textarea v-model="contentValue" placeholder="请输入内容, Ctrl+Enter可快捷发送" rows="4" style="flex: 1;"
-        @keyup.ctrl.enter="handleSend()" @keyup.ctrl.v="handleCopy" />
+      <Textarea v-model="contentValue" placeholder="请输入内容, Enter键可快捷发送, Shift + Enter换行" rows="4" style="flex: 1;"
+        @keyup.enter="handleEnter" />
       <div style="display: flex;flex-direction: column;gap: 10px;">
         <Button icon="pi pi-file-arrow-up" aria-label="传文件" severity="secondary" @click="handleFileChoose" />
         <Button icon="pi pi-send" aria-label="传文本" :loading="loading" @click="handleSend()" />
@@ -144,6 +144,15 @@
       this.scrollElement = this.$refs.scrollView
       this.getMessageList()
       this.initSSE()
+      window.addEventListener('paste', async (event) => {
+        // 阻止默认行为（可选）
+        // event.preventDefault()
+        // 获取剪贴板数据
+        const dataTransfer = event.clipboardData || window.clipboardData;
+        this.handleFileEvent({
+          dataTransfer
+        })
+      });
     },
     methods: {
       getFileIconType(mimetype) {
@@ -173,8 +182,12 @@
         //   }
         // })
       },
-      handleCopy(e) {
-        console.log(e);
+      handleEnter(e) {
+        if (!e.shiftKey) {
+          // 回车会给内容增加一个空字符
+          this.contentValue = this.contentValue.trimEnd()
+          this.handleSend()
+        }
       },
       ipShow(ip) {
         if (ip == '127.0.0.1' || getApp().globalData.ipList.includes(ip)) {
