@@ -63,7 +63,9 @@
     },
     methods: {
       goBack() {
-        uni.navigateBack()
+        uni.redirectTo({
+          url:'/pages/index/index'
+        })
       },
       openDir(path) {
         uni.request({
