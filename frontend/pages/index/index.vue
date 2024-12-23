@@ -10,8 +10,8 @@
             </text>
           </view>
           <div v-else-if="data.type == 'file'" class="file-container">
-            <div class="file-block" v-if="data.fileData.mimetype.includes('image')">
-              <Image :src="getUrl(data)" alt="图片加载失败" width="100%" preview />
+            <div class="file-block" style="width: 100%;" v-if="data.fileData.mimetype.includes('image')">
+              <trigger-lazyLoad :src="getUrl(data)" height="100px" imageModel="aspectFit" preview />
               <div style="margin-top: 5px;">
                 <text class="content-text">{{ data.fileData.originalFilename }}</text>
               </div>
