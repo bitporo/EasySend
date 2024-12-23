@@ -77,7 +77,8 @@
             }
         },
         "devServer" : {
-            "https" : false
+            "https" : false,
+            "port" : 7072
         }
     }
 }

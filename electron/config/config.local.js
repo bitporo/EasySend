@@ -21,7 +21,7 @@ module.exports = (appInfo) => {
    */
   config.remoteUrl = {
     enable: true,
-    url: 'http://localhost:5173'
+    url: 'http://localhost:7072'
   };
 
   /**
