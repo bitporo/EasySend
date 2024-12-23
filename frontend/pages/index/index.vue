@@ -230,10 +230,16 @@
       },
       handleDrop(e) {
         this.hasEnter = false
-        this.$refs.popup.open()
         e.preventDefault(); // 阻止浏览器默认处理文件拖放
+        this.handleFileEvent(e)
+      },
         // 获取拖放的文件
+      handleFileEvent(e) {
         const files = Array.from(e.dataTransfer.files);
+        if(!files.length){
+          return
+        }
+        this.$refs.popup.open()
         // 暂时只传第一个文件，以后可以完善多文件
         this.uploadTask = uni.uploadFile({
           url: this.baseUrl + '/message/uploadFile',
