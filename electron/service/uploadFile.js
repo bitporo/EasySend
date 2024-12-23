@@ -26,7 +26,18 @@ class UploadFileService extends Service {
 
   async getFile(query) {
     // 通过fs.createReadStream创建一个可读流来读取文件
-    return fs.createReadStream(fileHomeDir + '/' + query.fileName);
+    const promise = new Promise((resolve, reject) => {
+      const readStream = fs.createReadStream(fileHomeDir + '/' + query.fileName);
+      readStream.on('ready', () => {
+        // 当流准备就绪时可以执行一些操作
+        resolve(readStream)
+      });
+      // 监听 'error' 事件来捕获任何可能发生的错误
+      readStream.on('error', (err) => {
+        reject(err)
+      });
+    })
+    return promise
   }
 }
 

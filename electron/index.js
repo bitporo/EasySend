@@ -96,6 +96,7 @@ class Index extends Application {
 
     // 在客户端内下载
     session.defaultSession.on('will-download', (downloadevent, item, webContents) => {
+      webContents.send('progress', 'start')
       item.on('updated', (event, state) => {
         if (state === 'interrupted') {
           console.log('Download is interrupted but can be resumed')

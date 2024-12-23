@@ -368,8 +368,10 @@
           // ipc.removeListener('progress');
           ipc.removeAllListeners('progress');
           ipc.on('progress', (event, result) => {
-            // 下载成功提示
-            if (result == 'success') {
+            // 开始下载判断
+            if (result == 'start') {
+              this.onDownLoadItemId = itemData.id
+            } else if (result == 'success') {
               uni.showToast({
                 icon: 'success',
                 title: '下载完成！'
