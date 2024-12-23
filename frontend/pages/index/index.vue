@@ -383,7 +383,6 @@
             })
             return
           }
-          this.onDownLoadItemId = itemData.id
           // ipc.removeListener('progress');
           ipc.removeAllListeners('progress');
           ipc.on('progress', (event, result) => {
