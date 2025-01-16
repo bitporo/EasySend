@@ -22,9 +22,9 @@
     "to": "uplodFiles"
   },
   "nsis": {
-    "perMachine": true,
+    "perMachine": false,
     "oneClick": false,
-    "allowElevation": true,
+    "allowElevation": false,
     "allowToChangeInstallationDirectory": true,
     "installerIcon": "build/icons/icon.ico",
     "uninstallerIcon": "build/icons/icon.ico",
@@ -40,7 +40,6 @@
     "hardenedRuntime": false
   },
   "win": {
-    "requestedExecutionLevel": "requireAdministrator",
     "icon": "build/icons/icon.ico",
     "artifactName": "${productName}-${os}-${version}-${arch}.${ext}",
     "target": [
