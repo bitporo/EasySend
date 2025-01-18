@@ -9,7 +9,8 @@ const _ = require('lodash');
 const path = require('path');
 const crypto = require('crypto');
 const Ps = require('ee-core/ps');
-const fileHomeDir = os.type() == 'Windows_NT' ? Ps.getExecDir() + '/uplodFiles' : os.tmpdir()
+const fileHomeDir = require('../../method/plateform')
+
 /**
  * json数据存储
  * @class

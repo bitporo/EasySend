@@ -3,7 +3,7 @@
 const path = require('path');
 const Ps = require('ee-core/ps');
 const os = require('os');
-const fileHomeDir = os.type() == 'Windows_NT' ? Ps.getExecDir() + '/uplodFiles' : os.tmpdir()
+const fileHomeDir = require('../method/plateform')
 // console.log(os.hostname())
 // console.log(os.platform())
 // console.log(os.release())

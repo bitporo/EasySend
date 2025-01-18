@@ -5,6 +5,7 @@ const Log = require('ee-core/log');
 const Services = require('ee-core/services');
 const os = require('os');
 const Ps = require('ee-core/ps');
+const fileHomeDir = require('../../method/plateform')
 const {
   shell
 } = require('electron');
@@ -26,7 +27,7 @@ class SystemController extends Controller {
   getUploadPath() {
     return {
       old: os.tmpdir(),
-      now: Ps.getExecDir() + '\\uplodFiles',
+      now: fileHomeDir,
     };
   }
 

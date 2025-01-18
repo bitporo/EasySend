@@ -3,7 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const Log = require('ee-core/log');
 const Ps = require('ee-core/ps');
-const fileHomeDir = os.type() == 'Windows_NT' ? Ps.getExecDir() + '/uplodFiles' : os.tmpdir()
+const fileHomeDir = require('../../method/plateform')
 class UploadFileService extends Service {
   constructor(ctx) {
     super(ctx);
