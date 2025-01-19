@@ -9,8 +9,7 @@
 
 #### 软件架构
 采用electron-egg + uniapp + primevue ui实现  
-官网下载：https://easysend.channer.cn  
-Pro版下载：https://easysendpro.starest.cn  
+官网下载：https://easysend.channer.cn   
 
 <p align="center">
   <img src="frontend/static/easysend.png" width="800" alt="示例图片">
@@ -20,8 +19,9 @@ Pro版下载：https://easysendpro.starest.cn
 
 1.  安装：npm i
 2.  预览：npm run start
+3.  打包：npm run build-w(具体平台查看package.json)
 3.  开发情况下，前端为单独的uniapp项目，需要使用hbuilderx打开启动，路径为frontend，发行为h5后在项目根目录执行`npm run rd`将打包文件放到electron-egg下
-4.  linux-arm下，打包有点小问题，需要使用本机安装的fpm，请看官网文档教程
+
 
 #### 使用场景
 
