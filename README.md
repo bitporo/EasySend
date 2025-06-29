@@ -19,9 +19,11 @@
 
 1.  安装：npm i
 2.  预览：npm run start
-3.  打包：npm run build-w(具体平台查看package.json)
 3.  开发情况下，前端为单独的uniapp项目，需要使用hbuilderx打开启动，路径为frontend，发行为h5后在项目根目录执行`npm run rd`将打包文件放到electron-egg下
 
+#### 打包
+1.  打包：执行打包命令`npm run build-w`(具体平台查看package.json)  
+2.  说明：在linux平台下打包arm架构及rpm包需要使用系统的fpm，所以打以上两种包需要安装ruby，执行`gem install fpm`安装fpm，然后再执行对应打包命令即可
 
 #### 使用场景
 

@@ -52,8 +52,22 @@
     "icon": "build/icons/icon.icns",
     "artifactName": "${productName}-${os}-${version}-${arch}.${ext}",
     "target": [
-      "deb"
+      "deb",
+      "pacman",
+      "rpm"
     ],
     "category": "Utility"
+  },
+  "deb": {
+    "afterInstall": "build/script/debinstall.sh",
+    "afterRemove": "build/script/debuninstall.sh"
+  },
+  "pacman": {
+    "afterInstall": "build/script/debinstall.sh",
+    "afterRemove": "build/script/debuninstall.sh"
+  },
+  "rpm": {
+    "afterInstall": "build/script/debinstall.sh",
+    "afterRemove": "build/script/debuninstall.sh"
   }
 }
