@@ -9,7 +9,7 @@ const _ = require('lodash');
 const path = require('path');
 const crypto = require('crypto');
 const Ps = require('ee-core/ps');
-const fileHomeDir = require('../../method/plateform')
+const fileHomeDir = require('../method/plateform')
 
 /**
  * json数据存储
