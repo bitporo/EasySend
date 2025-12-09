@@ -68,6 +68,41 @@ class MessageController extends Controller {
       // };
     }
   }
+
+  async playVideo(args) {
+    // 设置响应头，指定内容类型为application/octet-stream，并且设置Content-Disposition以提示浏览器进行文件下载
+    try {
+      const range = this.app.request.headers.range;
+      const videoSize = args.query.size;
+      const CHUNK_SIZE = 10 ** 6; // 1MB 分块大小
+      const parts = range.replace(/bytes=/, '').split('-'); // 解析 Range 头部信息 'bytes=start-end'
+      const start = parseInt(parts[0], 10);
+      const end = parts[1] ? parseInt(parts[1], 10) : Math.min(start + CHUNK_SIZE, videoSize - 1); // 默认分块大小
+      const contentLength = end - start + 1;
+
+      const headers = {
+        'Content-Range': `bytes ${start}-${end}/${videoSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': contentLength,
+        'Content-Type': 'video/*',
+      }
+      this.app.response.set(headers);
+      this.app.response.status = 206; //206 Partial Content 状态码
+      args.query.start = start
+      args.query.end = end
+      const result = await Services.get('uploadFile').playVideo({
+        ...args.query,
+        start,
+        end
+      });
+      return result
+    } catch (error) {
+      // return {
+      //   code: 500,
+      //   mgs: error.message
+      // };
+    }
+  }
 }
 
 

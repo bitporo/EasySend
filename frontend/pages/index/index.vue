@@ -171,16 +171,9 @@
         }
       },
       playVideo(itemData) {
-        const url = this.getUrl(itemData)
-        window.open(`/#/pages/play/play?url=${url}`)
-        // uni.navigateTo({
-        //   url: '/pages/play/play',
-        //   success(res) {
-        //     res.eventChannel.emit('playUrl', {
-        //       url
-        //     })
-        //   }
-        // })
+        const url = this.baseUrl + '/message/playVideo' +
+          `?size=${itemData.fileData.size}&fileName=${encodeURIComponent(itemData.fileData.newFilename)}`
+        window.open(`/#/pages/play/play?url=${encodeURIComponent(url)}`)
       },
       handleEnter(e) {
         if (!e.shiftKey) {
